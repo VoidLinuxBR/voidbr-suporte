@@ -48,10 +48,13 @@ ntfy_url="https://ntfy.sh"
 # shellcheck source=/dev/null
 [[ -r $conf ]] && . "$conf"
 
-msg()  { printf '%s==>%s %s%s%s\n' "$green$bold" "$reset" "$bold" "$*" "$reset"; }
+msg() { printf '%s==>%s %s%s%s\n' "$green$bold" "$reset" "$bold" "$*" "$reset"; }
 info() { printf '%s  ->%s %s\n' "$blue$bold" "$reset" "$*"; }
 warn() { printf '%s==> AVISO:%s %s\n' "$yellow$bold" "$reset" "$*"; }
-die()  { printf '%s==> ERRO:%s %s\n' "$red$bold" "$reset" "$*" >&2; exit 1; }
+die() {
+	printf '%s==> ERRO:%s %s\n' "$red$bold" "$reset" "$*" >&2
+	exit 1
+}
 
 need() {
 	local c
@@ -79,7 +82,10 @@ mostrar_qr() {
 
 avisar_tecnico() {
 	[[ -n $ntfy_topico ]] || return 0
-	command -v curl >/dev/null || { warn "curl não instalado; técnico não foi avisado"; return 0; }
+	command -v curl >/dev/null || {
+		warn "curl não instalado; técnico não foi avisado"
+		return 0
+	}
 	if curl -fsS -m 10 \
 		-H "Title: Suporte VoidBR: $(hostname)" \
 		-H "Tags: computer" \
@@ -95,7 +101,7 @@ avisar_tecnico() {
 abrir_shell() {
 	local nome=${1:-} ip=${2:-} usuario=${3:-$(id -un)}
 
-	if ! (( compartilhar )); then
+	if ! ((compartilhar)); then
 		"${SHELL:-/bin/bash}" -l
 		return
 	fi
@@ -107,9 +113,9 @@ abrir_shell() {
 
 	# separadores estilo powerline (precisa de Nerd Font; não aparece no tty)
 	local sep_l="" sep_r=""
-	if (( tmux_powerline )); then
-		sep_l=$'\xee\x82\xb0'   # U+E0B0
-		sep_r=$'\xee\x82\xb2'   # U+E0B2
+	if ((tmux_powerline)); then
+		sep_l=$'\xee\x82\xb0' # U+E0B0
+		sep_r=$'\xee\x82\xb2' # U+E0B2
 	fi
 
 	local left right
@@ -168,7 +174,7 @@ ts_limpar() {
 		wait "$ts_pid" 2>/dev/null
 		info "máquina removida da rede do técnico"
 	fi
-	(( compartilhar )) && tmux kill-session -t "$tmux_sessao" 2>/dev/null
+	((compartilhar)) && tmux kill-session -t "$tmux_sessao" 2>/dev/null
 	[[ -n $ts_dir ]] && rm -rf "$ts_dir"
 }
 
@@ -178,15 +184,15 @@ ts_nome() {
 	local u h sufixo max
 	u=$(id -un | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')
 	h=$(hostname | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9\n' '-')
-	sufixo=$(tr -dc 'a-z0-9' < /dev/urandom | head -c 4)
-	max=$(( 63 - 8 - ${#u} - 1 - 1 - 4 ))
-	(( max < 1 )) && max=1
+	sufixo=$(tr -dc 'a-z0-9' </dev/urandom | head -c 4)
+	max=$((63 - 8 - ${#u} - 1 - 1 - 4))
+	((max < 1)) && max=1
 	printf 'suporte-%s-%s-%s' "${u:-x}" "${h:0:max}" "$sufixo"
 }
 
 cmd_tailscale() {
 	need tailscale tailscaled
-	(( compartilhar )) && need tmux
+	((compartilhar)) && need tmux
 	if [[ -z $ts_authkey || $ts_authkey == tskey-client-XXXX* ]]; then
 		printf '%s==> ERRO:%s ts_authkey não definido em %s\n' "$red$bold" "$reset" "$conf" >&2
 		info "para PEDIR suporte (usuário): configure o ts_authkey" >&2
@@ -229,6 +235,7 @@ cmd_tailscale() {
 		--advertise-tags="$ts_tag" \
 		--hostname="$nome" \
 		--ssh \
+		--accept-risk=lose-ssh \
 		--accept-dns=false \
 		--accept-routes=false; then
 		die "não consegui conectar; confira a internet e a ts_authkey"
@@ -236,7 +243,7 @@ cmd_tailscale() {
 
 	local ip acesso
 	ip=$(ts ip -4 2>/dev/null | head -n1)
-	if (( compartilhar )); then
+	if ((compartilhar)); then
 		acesso="voidbr-suporte entrar ${ip:-$nome}"
 	else
 		acesso="voidbr-suporte entrar ${ip:-$nome}"
@@ -248,10 +255,10 @@ cmd_tailscale() {
 	printf 'O técnico acessa com:\n  %s\n\n' "$acesso"
 	avisar_tecnico "$acesso"
 
-	if (( compartilhar )); then
+	if ((compartilhar)); then
 		printf 'O técnico verá e digitará neste terminal junto com você.\n'
 		printf 'Para %sENCERRAR o suporte%s, digite: %sexit%s\n\n' "$bold" "$reset" "$red$bold" "$reset"
-		if (( auto )); then
+		if ((auto)); then
 			sleep 2
 		else
 			read -rp "Pressione Enter para abrir o terminal compartilhado..."
@@ -259,7 +266,7 @@ cmd_tailscale() {
 		abrir_shell "$nome" "$ip" "$usuario"
 	else
 		printf 'O técnico usará um terminal próprio nesta máquina.\n'
-		if (( auto )); then
+		if ((auto)); then
 			printf 'Para %sENCERRAR o suporte%s, pressione %sCtrl+C%s\n' "$bold" "$reset" "$red$bold" "$reset"
 			while :; do sleep 3600; done
 		else
@@ -332,8 +339,8 @@ cmd_upterm() {
 		args+=(--authorized-keys "$tecnicos_chaves")
 		autorizados=1
 	fi
-	(( autorizados )) || die "nenhum técnico configurado em $conf (tecnicos_github ou tecnicos_chaves)"
-	(( perguntar )) || args+=(--accept)
+	((autorizados)) || die "nenhum técnico configurado em $conf (tecnicos_github ou tecnicos_chaves)"
+	((perguntar)) || args+=(--accept)
 
 	msg "Iniciando suporte remoto (upterm)"
 	info "conectando em ${servidor#*://}..."
@@ -366,7 +373,7 @@ cmd_lista() {
 	local ip nome _ resto
 	while read -r ip nome _ _ resto; do
 		printf '%-16s %-12s %-40s %s\n' "$ip" "$(usuario_do_nome "$nome")" "$nome" "$resto"
-	done <<< "$linhas"
+	done <<<"$linhas"
 }
 
 # entrar [nome|parte-do-nome|IP] [usuario]
@@ -380,30 +387,33 @@ cmd_entrar() {
 	if [[ -z $alvo ]]; then
 		achados=$linhas
 	elif [[ $alvo =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-		achados=$(awk -v a="$alvo" '$1 == a' <<< "$linhas")
+		achados=$(awk -v a="$alvo" '$1 == a' <<<"$linhas")
 		# IP fora da lista: entra direto, mas aí o usuário precisa ser informado
 		[[ -n $achados ]] || achados="$alvo -"
 	else
 		# nome exato, com ou sem o prefixo suporte-, ou parte do nome
-		achados=$(awk -v a="$alvo" '$2 == a || $2 == "suporte-" a' <<< "$linhas")
-		[[ -n $achados ]] || achados=$(awk -v a="$alvo" 'index($2, a)' <<< "$linhas")
+		achados=$(awk -v a="$alvo" '$2 == a || $2 == "suporte-" a' <<<"$linhas")
+		[[ -n $achados ]] || achados=$(awk -v a="$alvo" 'index($2, a)' <<<"$linhas")
 	fi
 
-	qtd=$(grep -c . <<< "$achados")
+	qtd=$(grep -c . <<<"$achados")
 	case $qtd in
-		0) die "nenhuma máquina de suporte corresponde a '$alvo'" ;;
-		1) ;;
-		*) cmd_lista; die "mais de uma máquina corresponde; informe o nome ou o IP" ;;
+	0) die "nenhuma máquina de suporte corresponde a '$alvo'" ;;
+	1) ;;
+	*)
+		cmd_lista
+		die "mais de uma máquina corresponde; informe o nome ou o IP"
+		;;
 	esac
 
-	read -r ip nome _ <<< "$achados"
+	read -r ip nome _ <<<"$achados"
 	if [[ -z $usuario ]]; then
 		[[ $nome != - ]] && usuario=$(usuario_do_nome "$nome")
 		[[ -n $usuario ]] || die "não sei o usuário de $ip; use: $prog entrar $ip <usuario>"
 	fi
 
 	msg "Entrando em $usuario@${nome/#-/$ip} ($ip)"
-	if (( compartilhar )); then
+	if ((compartilhar)); then
 		# máquinas de suporte são efêmeras: a chave muda a cada atendimento e o
 		# IP pode ser reaproveitado, então não guardamos em known_hosts.
 		# A identidade já é garantida pela tailnet (WireGuard).
@@ -422,11 +432,11 @@ cmd_entrar() {
 # falha_entrar <rc> <usuario> <ip>  -> explica por que não entrou
 falha_entrar() {
 	local rc=$1 usuario=$2 ip=$3
-	(( rc == 0 )) && return 0
+	((rc == 0)) && return 0
 
 	printf '%s==> ERRO:%s não consegui entrar como '"'"'%s'"'"' em %s (código %s)\n' \
 		"$red$bold" "$reset" "$usuario" "$ip" "$rc" >&2
-	if (( rc == 255 )); then
+	if ((rc == 255)); then
 		info "a conexão ou o login foi recusado" >&2
 	else
 		info "entrou, mas a sessão '$tmux_sessao' do tmux não abriu (no sessions?)" >&2
@@ -448,34 +458,40 @@ cmd_ouvir() {
 
 usage() {
 	cat <<-EOF
-	${bold}uso:${reset} $prog [comando]
+		${bold}uso:${reset} $prog [comando]
 
-	${bold}Usuário:${reset}
-	  ${green}(nada)${reset}                    inicia o suporte no modo padrão ($modo)
-	  ${green}tailscale${reset}                 inicia pelo Tailscale
-	  ${green}upterm${reset}                    inicia pelo upterm
+		${bold}Usuário:${reset}
+		  ${green}(nada)${reset}                    inicia o suporte no modo padrão ($modo)
+		  ${green}tailscale${reset}                 inicia pelo Tailscale
+		  ${green}upterm${reset}                    inicia pelo upterm
 
-	${bold}Técnico:${reset}
-	  ${green}lista${reset}                     máquinas de suporte online (tailscale)
-	  ${green}entrar${reset} [nome|IP] [usuario] entra na máquina (usuário vem do nome)
-	  ${green}ouvir${reset}                     aguarda chamados via ntfy
+		${bold}Técnico:${reset}
+		  ${green}lista${reset}                     máquinas de suporte online (tailscale)
+		  ${green}entrar${reset} [nome|IP] [usuario] entra na máquina (usuário vem do nome)
+		  ${green}ouvir${reset}                     aguarda chamados via ntfy
 
-	Configuração: $conf
+		Configuração: $conf
 	EOF
 }
 
 case ${1:-} in
-	"")              case $modo in
-	                     tailscale) cmd_tailscale ;;
-	                     upterm)    cmd_upterm ;;
-	                     *)         die "modo inválido em $conf: $modo" ;;
-	                 esac ;;
-	tailscale)       cmd_tailscale ;;
-	upterm)          cmd_upterm ;;
-	_upterm_dentro)  cmd_upterm_dentro ;;
-	lista|ls)        cmd_lista ;;
-	entrar)          shift; cmd_entrar "$@" ;;
-	ouvir)           cmd_ouvir ;;
-	ajuda|-h|--help) usage ;;
-	*)               usage; exit 1 ;;
+"") case $modo in
+	tailscale) cmd_tailscale ;;
+	upterm) cmd_upterm ;;
+	*) die "modo inválido em $conf: $modo" ;;
+	esac ;;
+tailscale) cmd_tailscale ;;
+upterm) cmd_upterm ;;
+_upterm_dentro) cmd_upterm_dentro ;;
+lista | ls) cmd_lista ;;
+entrar)
+	shift
+	cmd_entrar "$@"
+	;;
+ouvir) cmd_ouvir ;;
+ajuda | -h | --help) usage ;;
+*)
+	usage
+	exit 1
+	;;
 esac
