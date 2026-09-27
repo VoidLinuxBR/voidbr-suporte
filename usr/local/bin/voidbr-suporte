@@ -173,16 +173,26 @@ ts_limpar() {
 }
 
 ts_nome() {
-	local h sufixo
+	# formato: suporte-<usuario>-<host>-<xxxx>  (máx. 63 caracteres)
+	# o usuário vai no nome para o técnico entrar sem precisar informá-lo
+	local u h sufixo max
+	u=$(id -un | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')
 	h=$(hostname | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9\n' '-')
 	sufixo=$(tr -dc 'a-z0-9' < /dev/urandom | head -c 4)
-	printf 'suporte-%s-%s' "${h:0:30}" "$sufixo"
+	max=$(( 63 - 8 - ${#u} - 1 - 1 - 4 ))
+	(( max < 1 )) && max=1
+	printf 'suporte-%s-%s-%s' "${u:-x}" "${h:0:max}" "$sufixo"
 }
 
 cmd_tailscale() {
 	need tailscale tailscaled
 	(( compartilhar )) && need tmux
-	[[ -n $ts_authkey ]] || die "defina ts_authkey em $conf"
+	if [[ -z $ts_authkey || $ts_authkey == tskey-client-XXXX* ]]; then
+		printf '%s==> ERRO:%s ts_authkey não definido em %s\n' "$red$bold" "$reset" "$conf" >&2
+		info "para PEDIR suporte (usuário): configure o ts_authkey" >&2
+		info "para DAR suporte (técnico):   $prog lista | entrar" >&2
+		exit 1
+	fi
 
 	ts_dir=$(mktemp -d /tmp/voidbr-suporte.XXXXXX)
 	ts_sock=$ts_dir/tailscaled.sock
@@ -227,9 +237,9 @@ cmd_tailscale() {
 	local ip acesso
 	ip=$(ts ip -4 2>/dev/null | head -n1)
 	if (( compartilhar )); then
-		acesso="voidbr-suporte entrar $nome $usuario"
+		acesso="voidbr-suporte entrar ${ip:-$nome}"
 	else
-		acesso="tailscale ssh $usuario@$nome"
+		acesso="voidbr-suporte entrar ${ip:-$nome}"
 	fi
 
 	banner
@@ -333,52 +343,97 @@ cmd_upterm() {
 # =========================================================================
 # lado do técnico
 # =========================================================================
+# linhas "IP NOME ESTADO..." das máquinas de suporte online
+ts_suporte() {
+	tailscale status 2>/dev/null | awk '$2 ~ /^suporte-/'
+}
+
+# extrai o usuário do nome: suporte-<usuario>-<host>-<xxxx>
+usuario_do_nome() {
+	local n=${1#suporte-}
+	printf '%s' "${n%%-*}"
+}
+
 cmd_lista() {
 	need tailscale
 	local linhas
-	linhas=$(tailscale status 2>/dev/null | awk '$2 ~ /^suporte-/')
+	linhas=$(ts_suporte)
 	if [[ -z $linhas ]]; then
 		info "nenhuma máquina de suporte online"
 		return 0
 	fi
-	printf '%s%-16s %-36s %s%s\n' "$bold" "IP" "NOME" "ESTADO" "$reset"
-	awk '{ est=$5; for (i=6;i<=NF;i++) est=est" "$i; printf "%-16s %-36s %s\n", $1, $2, est }' <<< "$linhas"
+	printf '%s%-16s %-13s %-40s %s%s\n' "$bold" "IP" "USUÁRIO" "NOME" "ESTADO" "$reset"
+	local ip nome _ resto
+	while read -r ip nome _ _ resto; do
+		printf '%-16s %-12s %-40s %s\n' "$ip" "$(usuario_do_nome "$nome")" "$nome" "$resto"
+	done <<< "$linhas"
 }
 
+# entrar [nome|parte-do-nome|IP] [usuario]
 cmd_entrar() {
 	need tailscale ssh
-	local nome=${1:-} usuario=${2:-root}
-	if [[ -z $nome ]]; then
-		# sem nome: se só houver uma máquina de suporte, usa ela
-		local nomes
-		nomes=$(tailscale status 2>/dev/null | awk '$2 ~ /^suporte-/ { print $2 }')
-		case $(grep -c . <<< "$nomes") in
-			0) die "nenhuma máquina de suporte online" ;;
-			1) nome=$nomes ;;
-			*) cmd_lista; die "mais de uma online; use: $prog entrar <nome> [usuario]" ;;
-		esac
+	local alvo=${1:-} usuario=${2:-} linhas achados qtd ip nome
+
+	linhas=$(ts_suporte)
+	[[ -n $linhas ]] || die "nenhuma máquina de suporte online"
+
+	if [[ -z $alvo ]]; then
+		achados=$linhas
+	elif [[ $alvo =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+		achados=$(awk -v a="$alvo" '$1 == a' <<< "$linhas")
+		# IP fora da lista: entra direto, mas aí o usuário precisa ser informado
+		[[ -n $achados ]] || achados="$alvo -"
+	else
+		# nome exato, com ou sem o prefixo suporte-, ou parte do nome
+		achados=$(awk -v a="$alvo" '$2 == a || $2 == "suporte-" a' <<< "$linhas")
+		[[ -n $achados ]] || achados=$(awk -v a="$alvo" 'index($2, a)' <<< "$linhas")
 	fi
-	[[ $nome == suporte-* ]] || nome="suporte-$nome"
 
-	# resolve o IP pela própria tailnet: funciona mesmo sem MagicDNS
-	local ip
-	ip=$(tailscale ip -4 "$nome" 2>/dev/null | head -n1)
-	[[ -n $ip ]] || die "não achei o IP de '$nome'; confira com: $prog lista"
+	qtd=$(grep -c . <<< "$achados")
+	case $qtd in
+		0) die "nenhuma máquina de suporte corresponde a '$alvo'" ;;
+		1) ;;
+		*) cmd_lista; die "mais de uma máquina corresponde; informe o nome ou o IP" ;;
+	esac
 
-	msg "Entrando em $usuario@$nome ($ip)"
+	read -r ip nome _ <<< "$achados"
+	if [[ -z $usuario ]]; then
+		[[ $nome != - ]] && usuario=$(usuario_do_nome "$nome")
+		[[ -n $usuario ]] || die "não sei o usuário de $ip; use: $prog entrar $ip <usuario>"
+	fi
+
+	msg "Entrando em $usuario@${nome/#-/$ip} ($ip)"
 	if (( compartilhar )); then
 		# máquinas de suporte são efêmeras: a chave muda a cada atendimento e o
 		# IP pode ser reaproveitado, então não guardamos em known_hosts.
 		# A identidade já é garantida pela tailnet (WireGuard).
-		exec ssh -t \
+		ssh -t \
 			-o StrictHostKeyChecking=no \
 			-o UserKnownHostsFile=/dev/null \
 			-o LogLevel=ERROR \
 			-o ForwardX11=no \
 			"$usuario@$ip" tmux -u attach -t "$tmux_sessao"
 	else
-		exec tailscale ssh "$usuario@$nome"
+		tailscale ssh "$usuario@$ip"
 	fi
+	falha_entrar $? "$usuario" "$ip"
+}
+
+# falha_entrar <rc> <usuario> <ip>  -> explica por que não entrou
+falha_entrar() {
+	local rc=$1 usuario=$2 ip=$3
+	(( rc == 0 )) && return 0
+
+	printf '%s==> ERRO:%s não consegui entrar como '"'"'%s'"'"' em %s (código %s)\n' \
+		"$red$bold" "$reset" "$usuario" "$ip" "$rc" >&2
+	if (( rc == 255 )); then
+		info "a conexão ou o login foi recusado" >&2
+	else
+		info "entrou, mas a sessão '$tmux_sessao' do tmux não abriu (no sessions?)" >&2
+	fi
+	info "o remoto pode estar com versão antiga do voidbr-suporte, ou o usuário é outro" >&2
+	info "tente: $prog entrar $ip <usuario>" >&2
+	exit "$rc"
 }
 
 cmd_ouvir() {
@@ -402,7 +457,7 @@ usage() {
 
 	${bold}Técnico:${reset}
 	  ${green}lista${reset}                     máquinas de suporte online (tailscale)
-	  ${green}entrar${reset} [nome] [usuario]   entra na máquina (padrão: root)
+	  ${green}entrar${reset} [nome|IP] [usuario] entra na máquina (usuário vem do nome)
 	  ${green}ouvir${reset}                     aguarda chamados via ntfy
 
 	Configuração: $conf

@@ -19,7 +19,7 @@ entra no **mesmo terminal**, vendo e digitando junto.
  voidbr-suporte                    coordenação                 voidbr-suporte entrar
       │                                 │                            │
       ├─ sobe tailscaled temporário     │                            │
-      ├─ entra na tailnet ─────────────►│  suporte-<host>-xxxx       │
+      ├─ entra na tailnet ─────────────►│  suporte-<user>-<host>-xxxx│
       │                                 │  aparece para o técnico ──►│
       ├─ abre tmux compartilhado        │                            │
       │◄═══════════ conexão direta, criptografada (WireGuard) ══════►│
@@ -56,7 +56,8 @@ Ao rodar `voidbr-suporte`, o script:
    (modo userspace, estado só em memória). Não mexe na rede da máquina nem num
    Tailscale que já esteja instalado.
 2. Entra na tailnet do técnico usando o segredo do `/etc/voidbr-suporte.conf`,
-   como nó **efêmero** com a tag `tag:suporte` e o nome `suporte-<hostname>-<xxxx>`.
+   como nó **efêmero** com a tag `tag:suporte` e o nome `suporte-<usuario>-<hostname>-<xxxx>`.
+   O usuário vai no nome para o técnico entrar sem precisar informá-lo.
 3. Liga o **Tailscale SSH**: o próprio tailscaled atende o SSH, sem sshd.
 4. Abre o shell do usuário dentro de um **tmux** com uma barra colorida mostrando
    usuário, nome da máquina, IP e `exit = encerrar`.
@@ -70,8 +71,8 @@ voidbr-suporte lista      # máquinas de suporte online
 voidbr-suporte entrar     # entra no tmux do usuário
 ```
 
-O `entrar` descobre o IP pela própria tailnet (funciona sem MagicDNS) e conecta
-direto no tmux compartilhado.
+O `entrar` descobre o IP e o usuário pela própria tailnet (funciona sem MagicDNS)
+e conecta direto no tmux compartilhado, sempre pelo IP.
 
 ### Barra do tmux
 
@@ -214,26 +215,47 @@ O técnico **não** precisa do segredo no `.conf`.
 voidbr-suporte
 ```
 
-Com `auto=1` (padrão do pacote), o quadro com o nome aparece por 2 segundos e o
+Com `auto=1` (padrão do pacote), o quadro com o nome e o IP aparece por 2 segundos e o
 tmux abre sozinho. Para encerrar: `exit`.
+
+O usuário pode ser qualquer um: `root` na ISO live, `maria`, `anon`… O nome da máquina
+sai com quem rodou o script, por exemplo `suporte-anon-notebook-a1b2`.
 
 ### Técnico
 
 ```bash
 voidbr-suporte lista                              # quem está pedindo suporte
 voidbr-suporte entrar                             # se houver só uma máquina online
-voidbr-suporte entrar voidbr-liteon-nwhf          # por nome (prefixo suporte- opcional)
-voidbr-suporte entrar voidbr-liteon-nwhf fulano   # entrando como outro usuário
+voidbr-suporte entrar 100.95.244.100              # pelo IP
+voidbr-suporte entrar liteon                      # por parte do nome
+voidbr-suporte entrar 100.95.244.100 fulano       # forçando outro usuário
 voidbr-suporte ouvir                              # aguarda chamados via ntfy
 ```
 
-Usuário padrão do `entrar`: `root`. O Tailscale SSH em modo userspace só permite
-entrar como **o mesmo usuário que rodou o script**:
+O `lista` mostra o usuário de cada máquina:
 
-| Onde o usuário está | Quem roda o script | Técnico entra com |
+```
+IP               USUÁRIO      NOME                                     ESTADO
+100.95.244.100   vcatafesta   suporte-vcatafesta-voidbr-liteon-xe03    -
+100.95.1.7       root         suporte-root-voidbr-live-ab12            active; direct
+```
+
+O `entrar` **descobre o usuário pelo nome da máquina**. O Tailscale SSH em modo userspace
+só permite entrar como **o mesmo usuário que rodou o script** no remoto, e é esse que vai no nome:
+
+| Quem roda no remoto | Nome da máquina | O `entrar` usa |
 |---|---|---|
-| ISO live | root | `voidbr-suporte entrar` |
-| Sistema instalado | fulano | `voidbr-suporte entrar <nome> fulano` |
+| `root` (ISO live) | `suporte-root-voidbr-live-x9z8` | `root` |
+| `vcatafesta` | `suporte-vcatafesta-voidbr-liteon-xe03` | `vcatafesta` |
+| `anon` | `suporte-anon-notebook-a1b2` | `anon` |
+
+- O técnico **não precisa ter conta** no remoto: a tailnet autoriza o admin a entrar como esse usuário, sem senha.
+- O usuário do técnico no local não importa.
+- Dentro da sessão, o técnico tem as permissões do usuário; para root, `sudo` (o usuário digita a senha no terminal compartilhado).
+- Usuários com caracteres fora de `a-z0-9` (ex.: `joao.silva`) vão simplificados no nome (`joaosilva`);
+  nesse caso informe o usuário: `voidbr-suporte entrar <ip> joao.silva`.
+
+Com mais de uma máquina online e sem argumento, o `entrar` mostra a lista e pede o nome ou o IP.
 
 ### Todos os comandos
 
@@ -243,7 +265,7 @@ entrar como **o mesmo usuário que rodou o script**:
 | `tailscale` | usuário | inicia pelo Tailscale |
 | `upterm` | usuário | inicia pelo upterm |
 | `lista` / `ls` | técnico | máquinas `suporte-*` online |
-| `entrar [nome] [usuario]` | técnico | entra no tmux compartilhado |
+| `entrar [nome\|IP] [usuario]` | técnico | entra no tmux compartilhado (usuário vem do nome) |
 | `ouvir` | técnico | recebe chamados via ntfy |
 | `ajuda` | ambos | ajuda |
 
@@ -279,6 +301,8 @@ Arquivo: `/etc/voidbr-suporte.conf` (preservado nas atualizações do pacote).
   ou configuração para trás.
 - O `entrar` não grava a host key em `known_hosts`, porque cada atendimento gera uma máquina nova
   e o IP pode se repetir; a identidade já é garantida pela tailnet.
+- Máquinas de suporte **não alcançam nada** na tailnet (testado: conexão do remoto para o
+  técnico não passa). Só o admin chega nelas, e só na porta 22.
 
 ### O segredo é público na prática
 
@@ -323,14 +347,23 @@ voidbr-suporte upterm
 
 **`ssh: Could not resolve hostname suporte-...`**
 O MagicDNS não está ativo no seu Void. Use `voidbr-suporte entrar`, que resolve o IP
-pela própria tailnet.
+pela própria tailnet e conecta sempre pelo IP.
 
-**`no sessions` ao entrar**
-O tmux do usuário ainda não abriu (com `auto=0`, ele precisa apertar Enter) ou o
-usuário do `entrar` não é o mesmo que rodou o script.
+**`ERRO: ts_authkey não definido` no técnico**
+Sem argumento, `voidbr-suporte` inicia o lado do **usuário**. No técnico use
+`voidbr-suporte lista` e `voidbr-suporte entrar`.
+
+**`can't switch user` / `não consegui entrar como '...' (código 255)`**
+O login foi recusado porque o usuário não é o que rodou o script no remoto.
+Causa comum: o remoto está com **versão antiga** do `voidbr-suporte` (nome sem o usuário,
+`suporte-<host>-xxxx`), e o `entrar` leu o começo do hostname como usuário.
+Atualize o remoto ou informe o usuário: `voidbr-suporte entrar <ip> <usuario>`.
+
+**`entrou, mas a sessão 'suporte' do tmux não abriu` / `no sessions`**
+O tmux do usuário ainda não abriu (com `auto=0`, ele precisa apertar Enter).
 
 **Acentos aparecendo como `_`**
-Use `voidbr-suporte entrar` (ele já força UTF-8 com `tmux -u`).
+Use `voidbr-suporte entrar` (ele já força UTF-8 com `tmux -u`), em vez de `ssh` direto.
 
 **Barra do tmux cortada**
 Ela ocupa ~110 colunas. Em tty/VM com 80 colunas, o tmux corta o bloco da direita.
