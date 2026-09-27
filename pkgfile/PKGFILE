@@ -1,41 +1,51 @@
-# Maintainer: Vilmar Catafesta <vcatafesta@gmail.com>
+#!/usr/bin/env bash
+# Maintainer  : Vilmar Catafesta <vcatafesta@gmail.com>
 
 pkgname=voidbr-suporte
 pkgdesc="Suporte remoto rápido estilo tmate (Tailscale SSH + tmux compartilhado, ou upterm)"
 pkgver=$(date +%Y%m%d)
 pkgrel=$(date +%H%M)
-provides=()  # "eu SOU o $pkgname pkg1, pra quem depender deles"
-replaces=()  # "remove o pkg1 pkg2 antigo automaticamente quando eu instalar"
-conflicts=() # "nunca me deixe coexistir com o pkg1 pkg2 original"
+provides=("$pkgname")
+replaces=()
+conflicts=()
 arch=('any')
 license=('MIT')
-#url="ssh://git@github.com/voidlinuxbr/${pkgname}"
-url="https://github.com/voidlinuxbr/${pkgname}"
+homepage="https://github.com/voidlinuxbr/$pkgname"
+url="https://github.com/voidlinuxbr/$pkgname"
 source=("git+${url}.git")
-md5sums=('SKIP')
+checksum=('SKIP')
 makedepends=()
-depends=()
-backup=()
+depends=(
+	bash
+	coreutils
+	tailscale
+	tmux
+	curl
+	qrencode
+)
+# preserva o .conf do usuário (com o ts_authkey) nas atualizações
+backup=(/etc/voidbr-suporte.conf)
 
 package() {
 	# Verify default folder
 	if [ -d "${srcdir}/${pkgname}/${pkgname}" ]; then
 		InternalDir="${srcdir}/${pkgname}/${pkgname}"
-	elif [ -d "${srcdir}/${pkgname}" ]; then
-		InternalDir="${srcdir}/${pkgname}"
 	else
-		#local
-		InternalDir="${WORKDIR}"
+		InternalDir="${srcdir}/${pkgname}"
 	fi
 
-	cd "${InternalDir}"
+	cd "${srcdir}/${pkgname}"
 	# Copiar a estrutura de /etc, /usr e /opt para /
-	local dirs=("boot" "etc" "opt" "usr" "var")
+	local dirs=("etc" "opt" "usr")
 	for dir in "${dirs[@]}"; do
 		if [ -d "${InternalDir}/${dir}" ]; then
 			cp -a "${InternalDir}/${dir}" "${pkgdir}/"
 		fi
 	done
+
+	# garante permissões do script e do .conf
+	chmod 755 "${pkgdir}/usr/bin/voidbr-suporte"
+	chmod 644 "${pkgdir}/etc/voidbr-suporte.conf"
 
 	# Install license file if present
 	if [ -f "LICENSE" ]; then
@@ -54,6 +64,9 @@ pre_install() {
 
 post_install() {
 	log "Finalizando instalação"
+	if grep -q 'tskey-client-XXXX' /etc/voidbr-suporte.conf 2>/dev/null; then
+		log "ATENÇÃO: defina ts_authkey em /etc/voidbr-suporte.conf antes de usar o modo tailscale"
+	fi
 }
 
 pre_upgrade() {
