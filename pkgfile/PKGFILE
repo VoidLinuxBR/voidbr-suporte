@@ -1,12 +1,12 @@
 # Maintainer: Vilmar Catafesta <vcatafesta@gmail.com>
 
-pkgname=voidbr-pkgname
-pkgdesc="Package template for VoidLinuxBR"
+pkgname=voidbr-suporte
+pkgdesc="Suporte remoto rápido estilo tmate (Tailscale SSH + tmux compartilhado, ou upterm)"
 pkgver=$(date +%Y%m%d)
 pkgrel=$(date +%H%M)
-provides=()               # "eu SOU o $pkgname pkg1, pra quem depender deles"
-replaces=()               # "remove o pkg1 pkg2 antigo automaticamente quando eu instalar"
-conflicts=()              # "nunca me deixe coexistir com o pkg1 pkg2 original"
+provides=()  # "eu SOU o $pkgname pkg1, pra quem depender deles"
+replaces=()  # "remove o pkg1 pkg2 antigo automaticamente quando eu instalar"
+conflicts=() # "nunca me deixe coexistir com o pkg1 pkg2 original"
 arch=('any')
 license=('MIT')
 #url="ssh://git@github.com/voidlinuxbr/${pkgname}"
@@ -17,21 +17,14 @@ makedepends=()
 depends=()
 backup=()
 
-# Automatically detect and use the correct install file
-if [ -e "${pkgname}.install" ]; then
-	install=${pkgname}.install
-elif [ -e "pkgbuild.install" ]; then
-	install=pkgfile.install
-fi
-
 package() {
 	# Verify default folder
-  if [ -d "${srcdir}/${pkgname}/${pkgname}" ]; then
+	if [ -d "${srcdir}/${pkgname}/${pkgname}" ]; then
 		InternalDir="${srcdir}/${pkgname}/${pkgname}"
-  elif [ -d "${srcdir}/${pkgname}" ]; then
+	elif [ -d "${srcdir}/${pkgname}" ]; then
 		InternalDir="${srcdir}/${pkgname}"
 	else
-    #local
+		#local
 		InternalDir="${WORKDIR}"
 	fi
 
