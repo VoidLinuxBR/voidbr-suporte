@@ -1,11 +1,11 @@
-# Chili Tradutor Go - 2.1.24-20260816
+# Chili Tradutor Go - 2.1.27-20260928
 # Copyright (C) 2019-2026 Vilmar Catafesta <vcatafesta@gmail.com>
 # This file is distributed under the same license as the chili-tradutor-go package.
 msgid ""
 msgstr ""
-"Project-Id-Version: chili-tradutor-go 2.1.24-20260816\n"
-"POT-Creation-Date: 2026-09-28 18:18-0400\n"
-"PO-Revision-Date: 2026-09-28 18:18-0400\n"
+"Project-Id-Version: chili-tradutor-go 2.1.27-20260928\n"
+"POT-Creation-Date: 2026-09-28 19:05-0400\n"
+"PO-Revision-Date: 2026-09-28 19:05-0400\n"
 "Last-Translator: Vilmar Catafesta <vcatafesta@gmail.com>\n"
 "Language-Team: Portuguese <https://github.com/chililinux/chili-tradutor-go>\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr "Iniciando suporte remoto"
 
 #: usr/local/bin/voidbr-suporte:264
 msgid "subindo conexão (modo userspace, estado só em memória)"
-msgstr "subindo conexão (modo userspace, estado só em memória)"
+msgstr "subindo conexão (modo userspace, estado apenas em memória)"
 
 #: usr/local/bin/voidbr-suporte:278
 msgid "tailscaled não subiu; veja %s"
@@ -200,7 +200,7 @@ msgstr "a conexão ou o login foi recusado"
 
 #: usr/local/bin/voidbr-suporte:490
 msgid "entrou, mas a sessão '%s' do tmux não abriu (no sessions?)"
-msgstr "entrou, mas a sessão '%s' do tmux não abriu (no sessions?)"
+msgstr "entrou, mas a sessão '%s' do tmux não abriu (nenhuma sessão?)"
 
 #: usr/local/bin/voidbr-suporte:492
 msgid ""
@@ -245,7 +245,7 @@ msgstr "inicia o suporte (modo do .conf: %s)"
 
 #: usr/local/bin/voidbr-suporte:513
 msgid "força o modo Tailscale"
-msgstr "força o modo Tailscale"
+msgstr "force o modo Tailscale"
 
 #: usr/local/bin/voidbr-suporte:514
 msgid "força o modo upterm"
@@ -297,7 +297,7 @@ msgstr "técnico vê quem está aguardando"
 
 #: usr/local/bin/voidbr-suporte:528
 msgid "conecta (se houver só uma máquina)"
-msgstr "conecta (se houver só uma máquina)"
+msgstr "conecta (se houver apenas uma máquina)"
 
 #: usr/local/bin/voidbr-suporte:529
 msgid "conecta pelo IP"

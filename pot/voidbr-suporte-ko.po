@@ -1,11 +1,11 @@
-# Chili Tradutor Go - 2.1.24-20260816
+# Chili Tradutor Go - 2.1.27-20260928
 # Copyright (C) 2019-2026 Vilmar Catafesta <vcatafesta@gmail.com>
 # This file is distributed under the same license as the chili-tradutor-go package.
 msgid ""
 msgstr ""
-"Project-Id-Version: chili-tradutor-go 2.1.24-20260816\n"
-"POT-Creation-Date: 2026-09-28 18:18-0400\n"
-"PO-Revision-Date: 2026-09-28 18:18-0400\n"
+"Project-Id-Version: chili-tradutor-go 2.1.27-20260928\n"
+"POT-Creation-Date: 2026-09-28 19:05-0400\n"
+"PO-Revision-Date: 2026-09-28 19:05-0400\n"
 "Last-Translator: Vilmar Catafesta <vcatafesta@gmail.com>\n"
 "Language-Team: Portuguese <https://github.com/chililinux/chili-tradutor-go>\n"
 "MIME-Version: 1.0\n"
@@ -16,147 +16,147 @@ msgstr ""
 
 #: usr/local/bin/voidbr-suporte:105
 msgid "AVISO:"
-msgstr "AVISO:"
+msgstr "경고:"
 
 #: usr/local/bin/voidbr-suporte:106
 msgid "ERRO:"
-msgstr "ERRO:"
+msgstr "오류:"
 
 #: usr/local/bin/voidbr-suporte:112
 msgid "'%s' não instalado"
-msgstr "'%s' não instalado"
+msgstr "'%s' 설치되지 않음"
 
 #: usr/local/bin/voidbr-suporte:120
 msgid "SUPORTE REMOTO VOIDBR ATIVO"
-msgstr "SUPORTE REMOTO VOIDBR ATIVO"
+msgstr "VOIDBR 원격 지원 활성"
 
 #: usr/local/bin/voidbr-suporte:139
 msgid "curl não instalado; técnico não foi avisado"
-msgstr "curl não instalado; técnico não foi avisado"
+msgstr "curl가 설치되어 있지 않음; 기술자가 통보받지 못함"
 
 #: usr/local/bin/voidbr-suporte:141
 msgid "Suporte VoidBR: %s"
-msgstr "Suporte VoidBR: %s"
+msgstr "VoidBR 지원: %s"
 
 #: usr/local/bin/voidbr-suporte:144
 msgid "técnico avisado automaticamente"
-msgstr "técnico avisado automaticamente"
+msgstr "자동으로 알림을 받은 기술자"
 
 #: usr/local/bin/voidbr-suporte:146
 msgid "não consegui avisar o técnico; passe o comando acima para ele"
-msgstr "não consegui avisar o técnico; passe o comando acima para ele"
+msgstr "기술자에게 알릴 수 없었어요; 위 명령을 그에게 전달해 주세요"
 
 #: usr/local/bin/voidbr-suporte:174
 msgid "SUPORTE"
-msgstr "SUPORTE"
+msgstr "지원"
 
 #: usr/local/bin/voidbr-suporte:194
 msgid "exit = encerrar"
-msgstr "exit = encerrar"
+msgstr "exit = 종료"
 
 #: usr/local/bin/voidbr-suporte:221
 msgid "Encerrando o suporte"
-msgstr "Encerrando o suporte"
+msgstr "지원 종료"
 
 #: usr/local/bin/voidbr-suporte:226
 msgid "máquina removida da rede do técnico"
-msgstr "máquina removida da rede do técnico"
+msgstr "기술자의 네트워크에서 제거된 기계"
 
 #: usr/local/bin/voidbr-suporte:248
 msgid "ts_authkey não definido em %s"
-msgstr "ts_authkey não definido em %s"
+msgstr "ts_authkey가 %s에 정의되지 않음"
 
 #: usr/local/bin/voidbr-suporte:249
 msgid "para PEDIR suporte (usuário): configure o ts_authkey"
-msgstr "para PEDIR suporte (usuário): configure o ts_authkey"
+msgstr "지원 요청(사용자)을 위해: ts_authkey를 설정하세요"
 
 #: usr/local/bin/voidbr-suporte:250
 msgid "para DAR suporte (técnico):   %s --list | --connect"
-msgstr "para DAR suporte (técnico):   %s --list | --connect"
+msgstr "기술 지원을 위해: %s --list | --connect"
 
 #: usr/local/bin/voidbr-suporte:263
 msgid "Iniciando suporte remoto"
-msgstr "Iniciando suporte remoto"
+msgstr "원격 지원 시작 중"
 
 #: usr/local/bin/voidbr-suporte:264
 msgid "subindo conexão (modo userspace, estado só em memória)"
-msgstr "subindo conexão (modo userspace, estado só em memória)"
+msgstr "연결 올리는 중 (유저스페이스 모드, 메모리 상에서만 상태)"
 
 #: usr/local/bin/voidbr-suporte:278
 msgid "tailscaled não subiu; veja %s"
-msgstr "tailscaled não subiu; veja %s"
+msgstr "tailscaled가 올라가지 않았습니다; %s를 확인하세요"
 
 #: usr/local/bin/voidbr-suporte:281
 msgid "tailscaled não respondeu"
-msgstr "tailscaled não respondeu"
+msgstr "tailscaled가 응답하지 않았습니다"
 
 #: usr/local/bin/voidbr-suporte:283
 msgid "entrando na rede do técnico como %s"
-msgstr "entrando na rede do técnico como %s"
+msgstr "%s로 기술자의 네트워크에 접속하기"
 
 #: usr/local/bin/voidbr-suporte:292
 msgid "não consegui conectar; confira a internet e a ts_authkey"
-msgstr "não consegui conectar; confira a internet e a ts_authkey"
+msgstr "연결할 수 없습니다; 인터넷과 ts_authkey를 확인하세요"
 
 #: usr/local/bin/voidbr-suporte:304
 msgid "Nome desta máquina para o técnico:"
-msgstr "Nome desta máquina para o técnico:"
+msgstr "이 기계의 기술자용 이름:"
 
 #: usr/local/bin/voidbr-suporte:305
 msgid "sem IP"
-msgstr "sem IP"
+msgstr "IP 없음"
 
 #: usr/local/bin/voidbr-suporte:306
 msgid "O técnico acessa com:"
-msgstr "O técnico acessa com:"
+msgstr "기술자가 다음으로 접속합니다:"
 
 #: usr/local/bin/voidbr-suporte:310 usr/local/bin/voidbr-suporte:373
 msgid "O técnico verá e digitará neste terminal junto com você."
-msgstr "O técnico verá e digitará neste terminal junto com você."
+msgstr "기술자가 이 단말기에서 당신과 함께 보고 입력할 것입니다."
 
 #: usr/local/bin/voidbr-suporte:311 usr/local/bin/voidbr-suporte:374
 msgid "Para %sENCERRAR o suporte%s, digite: %sexit%s"
-msgstr "Para %sENCERRAR o suporte%s, digite: %sexit%s"
+msgstr "%s 지원을 종료하려면 %s, 입력하세요: %sexit%s"
 
 #: usr/local/bin/voidbr-suporte:315
 msgid "Pressione Enter para abrir o terminal compartilhado..."
-msgstr "Pressione Enter para abrir o terminal compartilhado..."
+msgstr "공유 터미널을 열려면 Enter 키를 누르세요..."
 
 #: usr/local/bin/voidbr-suporte:319
 msgid "O técnico usará um terminal próprio nesta máquina."
-msgstr "O técnico usará um terminal próprio nesta máquina."
+msgstr "기술자가 이 기계에서 자체 단말기를 사용할 것입니다."
 
 #: usr/local/bin/voidbr-suporte:321
 msgid "Para %sENCERRAR o suporte%s, pressione %sCtrl+C%s"
-msgstr "Para %sENCERRAR o suporte%s, pressione %sCtrl+C%s"
+msgstr "%sENCERRAR 지원%s을(를) 위해 %sCtrl+C%s를 누르세요"
 
 #: usr/local/bin/voidbr-suporte:324
 msgid "Pressione Enter para ENCERRAR o suporte..."
-msgstr "Pressione Enter para ENCERRAR o suporte..."
+msgstr "지원을 종료하려면 Enter를 누르세요..."
 
 #: usr/local/bin/voidbr-suporte:366
 msgid "Passe para o técnico:"
-msgstr "Passe para o técnico:"
+msgstr "기술자에게 전달하세요:"
 
 #: usr/local/bin/voidbr-suporte:370
 msgid "não consegui ler o comando de acesso; rode: %s"
-msgstr "não consegui ler o comando de acesso; rode: %s"
+msgstr "접근 명령을 읽을 수 없습니다; 실행하세요: %s"
 
 #: usr/local/bin/voidbr-suporte:393
 msgid "nenhum técnico configurado em %s (tecnicos_github ou tecnicos_chaves)"
-msgstr "nenhum técnico configurado em %s (tecnicos_github ou tecnicos_chaves)"
+msgstr "%s에 설정된 기술자가 없음 (tecnicos_github 또는 tecnicos_chaves)"
 
 #: usr/local/bin/voidbr-suporte:396
 msgid "Iniciando suporte remoto (upterm)"
-msgstr "Iniciando suporte remoto (upterm)"
+msgstr "원격 지원 시작 (upterm)"
 
 #: usr/local/bin/voidbr-suporte:397
 msgid "conectando em %s..."
-msgstr "conectando em %s..."
+msgstr "%s에 연결 중..."
 
 #: usr/local/bin/voidbr-suporte:420 usr/local/bin/voidbr-suporte:437
 msgid "nenhuma máquina de suporte online"
-msgstr "nenhuma máquina de suporte online"
+msgstr "온라인 지원 기계 없음"
 
 #: usr/local/bin/voidbr-suporte:423
 msgid "IP"
@@ -164,153 +164,153 @@ msgstr "IP"
 
 #: usr/local/bin/voidbr-suporte:423
 msgid "USUÁRIO"
-msgstr "USUÁRIO"
+msgstr "사용자"
 
 #: usr/local/bin/voidbr-suporte:424
 msgid "NOME"
-msgstr "NOME"
+msgstr "이름"
 
 #: usr/local/bin/voidbr-suporte:424
 msgid "ESTADO"
-msgstr "ESTADO"
+msgstr "주"
 
 #: usr/local/bin/voidbr-suporte:453
 msgid "nenhuma máquina de suporte corresponde a '%s'"
-msgstr "nenhuma máquina de suporte corresponde a '%s'"
+msgstr "어떤 지원 장치도 '%s'에 해당하지 않습니다"
 
 #: usr/local/bin/voidbr-suporte:455
 msgid "mais de uma máquina corresponde; informe o nome ou o IP"
-msgstr "mais de uma máquina corresponde; informe o nome ou o IP"
+msgstr "하나 이상의 기계에 해당합니다; 이름이나 IP를 입력하세요"
 
 #: usr/local/bin/voidbr-suporte:461
 msgid "não sei o usuário de %s; use: %s --connect %s <usuario>"
-msgstr "não sei o usuário de %s; use: %s --connect %s <usuario>"
+msgstr "%s의 사용자를 모릅니다; 다음을 사용하세요: %s --connect %s <사용자>"
 
 #: usr/local/bin/voidbr-suporte:464
 msgid "Entrando em %s (%s)"
-msgstr "Entrando em %s (%s)"
+msgstr "%s (%s)에 들어가기"
 
 #: usr/local/bin/voidbr-suporte:486
 msgid "não consegui entrar como '%s' em %s (código %s)"
-msgstr "não consegui entrar como '%s' em %s (código %s)"
+msgstr "'%s'로 %s에 들어갈 수 없습니다 (코드 %s)"
 
 #: usr/local/bin/voidbr-suporte:488
 msgid "a conexão ou o login foi recusado"
-msgstr "a conexão ou o login foi recusado"
+msgstr "연결 또는 로그인이 거부되었습니다"
 
 #: usr/local/bin/voidbr-suporte:490
 msgid "entrou, mas a sessão '%s' do tmux não abriu (no sessions?)"
-msgstr "entrou, mas a sessão '%s' do tmux não abriu (no sessions?)"
+msgstr "들어갔지만 tmux의 '%s' 세션이 열리지 않았습니다 (세션이 없나요?)"
 
 #: usr/local/bin/voidbr-suporte:492
 msgid ""
 "o remoto pode estar com versão antiga do voidbr-suporte, ou o usuário é outro"
-msgstr "o remoto pode estar com versão antiga do voidbr-suporte, ou o usuário é outro"
+msgstr "원격이 voidbr-suporte의 오래된 버전을 사용하고 있거나, 사용자가 다를 수 있습니다"
 
 #: usr/local/bin/voidbr-suporte:493
 msgid "tente: %s --connect %s <usuario>"
-msgstr "tente: %s --connect %s <usuario>"
+msgstr "시도: %s --connect %s <사용자>"
 
 #: usr/local/bin/voidbr-suporte:498
 msgid "defina ntfy_topico em %s"
-msgstr "defina ntfy_topico em %s"
+msgstr "%s에서 ntfy_topico를 정의하세요"
 
 #: usr/local/bin/voidbr-suporte:500
 msgid "Aguardando chamados em %s (Ctrl+C para sair)"
-msgstr "Aguardando chamados em %s (Ctrl+C para sair)"
+msgstr "%s에서 호출을 기다리는 중 (종료하려면 Ctrl+C)"
 
 #: usr/local/bin/voidbr-suporte:503
 msgid "novo chamado:"
-msgstr "novo chamado:"
+msgstr "새로운 호출:"
 
 #: usr/local/bin/voidbr-suporte:509
 msgid "uso:"
-msgstr "uso:"
+msgstr "사용:"
 
 #: usr/local/bin/voidbr-suporte:509
 msgid "[opções]"
-msgstr "[opções]"
+msgstr "[옵션]"
 
 #: usr/local/bin/voidbr-suporte:511
 msgid "Usuário (pedir suporte):"
-msgstr "Usuário (pedir suporte):"
+msgstr "사용자 (지원 요청):"
 
 #: usr/local/bin/voidbr-suporte:512
 msgid "(sem opções)"
-msgstr "(sem opções)"
+msgstr "(옵션 없음)"
 
 #: usr/local/bin/voidbr-suporte:512
 msgid "inicia o suporte (modo do .conf: %s)"
-msgstr "inicia o suporte (modo do .conf: %s)"
+msgstr "지원 시작 (.conf 모드: %s)"
 
 #: usr/local/bin/voidbr-suporte:513
 msgid "força o modo Tailscale"
-msgstr "força o modo Tailscale"
+msgstr "Tailscale 모드를 강제합니다"
 
 #: usr/local/bin/voidbr-suporte:514
 msgid "força o modo upterm"
-msgstr "força o modo upterm"
+msgstr "업텀 모드를 강제하다"
 
 #: usr/local/bin/voidbr-suporte:516
 msgid "Técnico (dar suporte):"
-msgstr "Técnico (dar suporte):"
+msgstr "기술자(지원 제공):"
 
 #: usr/local/bin/voidbr-suporte:517
 msgid "máquinas aguardando suporte"
-msgstr "máquinas aguardando suporte"
+msgstr "지원을 기다리는 기계"
 
 #: usr/local/bin/voidbr-suporte:518
 msgid "[alvo] [usuario]"
-msgstr "[alvo] [usuario]"
+msgstr "[대상] [사용자]"
 
 #: usr/local/bin/voidbr-suporte:518
 msgid "conecta na máquina (nome, parte do nome ou IP)"
-msgstr "conecta na máquina (nome, parte do nome ou IP)"
+msgstr "기계에 연결하기 (이름, 이름의 일부 또는 IP)"
 
 #: usr/local/bin/voidbr-suporte:519
 msgid "aguarda chamados via ntfy"
-msgstr "aguarda chamados via ntfy"
+msgstr "ntfy를 통한 호출을 기다립니다"
 
 #: usr/local/bin/voidbr-suporte:521
 msgid "Gerais:"
-msgstr "Gerais:"
+msgstr "일반:"
 
 #: usr/local/bin/voidbr-suporte:522
 msgid "mostra esta ajuda"
-msgstr "mostra esta ajuda"
+msgstr "이 도움말을 보여 줘"
 
 #: usr/local/bin/voidbr-suporte:523
 msgid "mostra a versão"
-msgstr "mostra a versão"
+msgstr "버전을 보여주다"
 
 #: usr/local/bin/voidbr-suporte:525
 msgid "Exemplos:"
-msgstr "Exemplos:"
+msgstr "예시:"
 
 #: usr/local/bin/voidbr-suporte:526
 msgid "usuário pede suporte"
-msgstr "usuário pede suporte"
+msgstr "사용자가 지원을 요청합니다"
 
 #: usr/local/bin/voidbr-suporte:527
 msgid "técnico vê quem está aguardando"
-msgstr "técnico vê quem está aguardando"
+msgstr "기술자가 기다리고 있는 사람을 봅니다"
 
 #: usr/local/bin/voidbr-suporte:528
 msgid "conecta (se houver só uma máquina)"
-msgstr "conecta (se houver só uma máquina)"
+msgstr "연결합니다 (기계가 하나만 있는 경우)"
 
 #: usr/local/bin/voidbr-suporte:529
 msgid "conecta pelo IP"
-msgstr "conecta pelo IP"
+msgstr "IP로 연결하다"
 
 #: usr/local/bin/voidbr-suporte:531
 msgid "Configuração:"
-msgstr "Configuração:"
+msgstr "설정:"
 
 #: usr/local/bin/voidbr-suporte:538
 msgid "modo inválido em %s: %s"
-msgstr "modo inválido em %s: %s"
+msgstr "%s에서 잘못된 모드: %s"
 
 #: usr/local/bin/voidbr-suporte:555
 msgid "opção inválida: %s"
-msgstr "opção inválida: %s"
+msgstr "잘못된 옵션: %s"
