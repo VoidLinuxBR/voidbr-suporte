@@ -1,15 +1,61 @@
 #!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+# shellcheck shell=bash disable=SC1091,SC2039,SC2166,SC2034
 #
-# voidbr-suporte - suporte remoto rápido estilo tmate
+#  voidbr-suporte - Wrapper for
+#  Created: seg 28 set 2026 17:42:20 -04
+#  Updated: seg 28 set 2026 17:42:20 -04
 #
-# Dois modos (escolha em /etc/voidbr-suporte.conf ou na linha de comando):
-#   tailscale  máquina entra na sua tailnet como nó efêmero com Tailscale SSH;
-#              ninguém dita nada: ela aparece como suporte-<host>-<xxxx>
-#   upterm     sessão compartilhada via servidor upterm (token/QR code)
+#  Copyright (c) 2019-2026, Vilmar Catafesta <vcatafesta@gmail.com>
+#  Copyright (c) 2019-2026, ChiliLinux Development Team <https://chililinux.com> <https://github.com/chililinux>
+#  Assembled By Vilmar Catafesta for the ChiliLinux project.
+#  All rights reserved.
 #
-# USUÁRIO:  voidbr-suporte [tailscale|upterm]
-# TÉCNICO:  voidbr-suporte lista | entrar <nome> [usuario] | ouvir
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions
+#  are met:
+#  1. Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer.
+#  2. Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution.
 #
+#  THIS SOFTWARE IS PROVIDED BY Vilmar Catafesta ''AS IS'' AND ANY EXPRESS OR
+#  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+#  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+#  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+#  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+#  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+#  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+#  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#  voidbr-suporte - suporte remoto rápido estilo tmate
+#
+#  Dois modos (escolha em /etc/voidbr-suporte.conf ou na linha de comando):
+#    tailscale  máquina entra na tailnet do técnico como nó efêmero com
+#               Tailscale SSH; ninguém dita nada: ela aparece como
+#               suporte-<usuario>-<host>-<xxxx>
+#    upterm     sessão compartilhada via servidor upterm (token/QR code)
+#
+#  USUÁRIO:  voidbr-suporte [-t|--tailscale | -u|--upterm]
+#  TÉCNICO:  voidbr-suporte -l|--list | -c|--connect [alvo] [usuario] | -n|--listen
+##############################################################################
+export LANGUAGE="${LANGUAGE:-pt_BR}"
+export TEXTDOMAINDIR=/usr/share/locale
+export TEXTDOMAIN=voidbr-suporte
+
+#debug
+export PS4='${red}${0##*/}${green}[$FUNCNAME]${pink}[$LINENO]${reset}'
+#set -x
+#set -e
+#set -euo pipefail
+shopt -s extglob
+
+#system
+declare APP="${0##*/}"
+declare _VERSION_="0.09.28-20260928"
 
 set -uo pipefail
 
@@ -18,11 +64,28 @@ green=$'\e[32m'
 yellow=$'\e[33m'
 blue=$'\e[34m'
 cyan=$'\e[36m'
+pink=$'\e[35m'
 bold=$'\e[1m'
 reset=$'\e[0m'
 
+# ---- i18n (gettext) ------------------------------------------------------
+# _ "formato printf" [args...]  -> texto traduzido, sem quebra de linha
+# Os msgids estão em pt_BR; sem catálogo (.mo) o texto sai como está.
+# shellcheck disable=SC2059
+_() {
+	local fmt
+	fmt=$(gettext -- "$1" 2>/dev/null) || fmt=$1
+	shift
+	printf -- "$fmt" "$@"
+}
+
+# sh_col <texto> <largura>  -> texto alinhado por caracteres (não por bytes)
+sh_col() {
+	local t=$1 w=$2
+	printf '%s%*s' "$t" $((w > ${#t} ? w - ${#t} : 0)) ''
+}
+
 conf=/etc/voidbr-suporte.conf
-prog=${0##*/}
 
 # ---- padrões (sobrescritos pelo $conf) ----------------------------------
 modo="tailscale"
@@ -48,29 +111,34 @@ ntfy_url="https://ntfy.sh"
 # shellcheck source=/dev/null
 [[ -r $conf ]] && . "$conf"
 
-msg() { printf '%s==>%s %s%s%s\n' "$green$bold" "$reset" "$bold" "$*" "$reset"; }
-info() { printf '%s  ->%s %s\n' "$blue$bold" "$reset" "$*"; }
-warn() { printf '%s==> AVISO:%s %s\n' "$yellow$bold" "$reset" "$*"; }
-die() {
-	printf '%s==> ERRO:%s %s\n' "$red$bold" "$reset" "$*" >&2
+sh_msg() { printf '%s==>%s %s%s%s\n' "$green$bold" "$reset" "$bold" "$*" "$reset"; }
+sh_info() { printf '%s  ->%s %s\n' "$blue$bold" "$reset" "$*"; }
+sh_warn() { printf '%s==> %s%s %s\n' "$yellow$bold" "$(_ "AVISO:")" "$reset" "$*"; }
+sh_erro() { printf '%s==> %s%s %s\n' "$red$bold" "$(_ "ERRO:")" "$reset" "$*" >&2; }
+sh_die() {
+	sh_erro "$@"
 	exit 1
 }
 
-need() {
+sh_need() {
 	local c
 	for c; do
-		command -v "$c" >/dev/null || die "'$c' não instalado"
+		command -v "$c" >/dev/null || sh_die "$(_ "'%s' não instalado" "$c")"
 	done
 }
 
-banner() {
+sh_banner() {
 	clear
 	printf '%s╔══════════════════════════════════════════════════════╗%s\n' "$cyan$bold" "$reset"
-	printf '%s║             SUPORTE REMOTO VOIDBR ATIVO              ║%s\n' "$cyan$bold" "$reset"
+	local t pad
+	t=$(_ "SUPORTE REMOTO VOIDBR ATIVO")
+	pad=$(((54 - ${#t}) / 2))
+	((pad < 0)) && pad=0
+	printf '%s║%*s%s%*s║%s\n' "$cyan$bold" "$pad" '' "$t" $((54 - pad - ${#t} > 0 ? 54 - pad - ${#t} : 0)) '' "$reset"
 	printf '%s╚══════════════════════════════════════════════════════╝%s\n\n' "$cyan$bold" "$reset"
 }
 
-mostrar_qr() {
+sh_mostrar_qr() {
 	command -v qrencode >/dev/null || return 0
 	# no tty (TERM=linux) usa blocos por cor de fundo, que qualquer fonte exibe
 	if [[ ${TERM:-} == linux ]]; then
@@ -80,25 +148,25 @@ mostrar_qr() {
 	fi
 }
 
-avisar_tecnico() {
+sh_avisar_tecnico() {
 	[[ -n $ntfy_topico ]] || return 0
 	command -v curl >/dev/null || {
-		warn "curl não instalado; técnico não foi avisado"
+		sh_warn "$(_ "curl não instalado; técnico não foi avisado")"
 		return 0
 	}
 	if curl -fsS -m 10 \
-		-H "Title: Suporte VoidBR: $(hostname)" \
+		-H "Title: $(_ "Suporte VoidBR: %s" "$(hostname)")" \
 		-H "Tags: computer" \
 		-d "$1" "$ntfy_url/$ntfy_topico" >/dev/null; then
-		info "${green}técnico avisado automaticamente${reset}"
+		sh_info "${green}$(_ "técnico avisado automaticamente")${reset}"
 	else
-		warn "não consegui avisar o técnico; passe o comando acima para ele"
+		sh_warn "$(_ "não consegui avisar o técnico; passe o comando acima para ele")"
 	fi
 }
 
 # abre o shell do usuário: dentro do tmux (tela compartilhada) ou direto
-# abrir_shell [nome] [ip] [usuario]  -> aparecem em blocos coloridos na barra
-abrir_shell() {
+# sh_abrir_shell [nome] [ip] [usuario]  -> aparecem em blocos coloridos na barra
+sh_abrir_shell() {
 	local nome=${1:-} ip=${2:-} usuario=${3:-$(id -un)}
 
 	if ! ((compartilhar)); then
@@ -120,7 +188,7 @@ abrir_shell() {
 
 	local left right
 	# esquerda: SUPORTE | usuário
-	left="#[bg=$c_red,fg=$c_bg,bold] SUPORTE "
+	left="#[bg=$c_red,fg=$c_bg,bold] $(_ "SUPORTE") "
 	left+="#[fg=$c_red,bg=$c_blue,nobold]$sep_l"
 	left+="#[bg=$c_blue,fg=$c_bg,bold] $usuario "
 	left+="#[fg=$c_blue,bg=$c_bg,nobold]$sep_l "
@@ -140,7 +208,7 @@ abrir_shell() {
 	else
 		right+="#[fg=$c_yellow,bg=$c_bg]$sep_r"
 	fi
-	right+="#[bg=$c_yellow,fg=$c_bg,bold] exit = encerrar "
+	right+="#[bg=$c_yellow,fg=$c_bg,bold] $(_ "exit = encerrar") "
 
 	tmux kill-session -t "$tmux_sessao" 2>/dev/null
 	tmux new-session -s "$tmux_sessao" \; \
@@ -162,23 +230,23 @@ ts_dir=""
 ts_sock=""
 ts_pid=""
 
-ts() { tailscale --socket="$ts_sock" "$@"; }
+sh_ts() { tailscale --socket="$ts_sock" "$@"; }
 
-ts_limpar() {
+sh_ts_limpar() {
 	trap - EXIT INT TERM
 	printf '\n'
-	msg "Encerrando o suporte"
+	sh_msg "$(_ "Encerrando o suporte")"
 	if [[ -n $ts_pid ]] && kill -0 "$ts_pid" 2>/dev/null; then
 		timeout 10 tailscale --socket="$ts_sock" logout >/dev/null 2>&1
 		kill "$ts_pid" 2>/dev/null
 		wait "$ts_pid" 2>/dev/null
-		info "máquina removida da rede do técnico"
+		sh_info "$(_ "máquina removida da rede do técnico")"
 	fi
 	((compartilhar)) && tmux kill-session -t "$tmux_sessao" 2>/dev/null
 	[[ -n $ts_dir ]] && rm -rf "$ts_dir"
 }
 
-ts_nome() {
+sh_ts_nome() {
 	# formato: suporte-<usuario>-<host>-<xxxx>  (máx. 63 caracteres)
 	# o usuário vai no nome para o técnico entrar sem precisar informá-lo
 	local u h sufixo max
@@ -190,27 +258,27 @@ ts_nome() {
 	printf 'suporte-%s-%s-%s' "${u:-x}" "${h:0:max}" "$sufixo"
 }
 
-cmd_tailscale() {
-	need tailscale tailscaled
-	((compartilhar)) && need tmux
+sh_tailscale() {
+	sh_need tailscale tailscaled
+	((compartilhar)) && sh_need tmux
 	if [[ -z $ts_authkey || $ts_authkey == tskey-client-XXXX* ]]; then
-		printf '%s==> ERRO:%s ts_authkey não definido em %s\n' "$red$bold" "$reset" "$conf" >&2
-		info "para PEDIR suporte (usuário): configure o ts_authkey" >&2
-		info "para DAR suporte (técnico):   $prog lista | entrar" >&2
+		sh_erro "$(_ "ts_authkey não definido em %s" "$conf")"
+		sh_info "$(_ "para PEDIR suporte (usuário): configure o ts_authkey")" >&2
+		sh_info "$(_ "para DAR suporte (técnico):   %s --list | --connect" "$APP")" >&2
 		exit 1
 	fi
 
 	ts_dir=$(mktemp -d /tmp/voidbr-suporte.XXXXXX)
 	ts_sock=$ts_dir/tailscaled.sock
-	trap ts_limpar EXIT
+	trap sh_ts_limpar EXIT
 	trap 'exit 130' INT TERM
 
 	local nome usuario
-	nome=$(ts_nome)
+	nome=$(sh_ts_nome)
 	usuario=$(id -un)
 
-	msg "Iniciando suporte remoto"
-	info "subindo conexão (modo userspace, estado só em memória)"
+	sh_msg "$(_ "Iniciando suporte remoto")"
+	sh_info "$(_ "subindo conexão (modo userspace, estado só em memória)")"
 	# daemon próprio: não mexe num tailscaled que já exista na máquina
 	tailscaled \
 		--tun=userspace-networking \
@@ -221,15 +289,15 @@ cmd_tailscale() {
 		>"$ts_dir/tailscaled.log" 2>&1 &
 	ts_pid=$!
 
-	local _
-	for _ in {1..20}; do
+	local i
+	for i in {1..20}; do
 		[[ -S $ts_sock ]] && break
-		kill -0 "$ts_pid" 2>/dev/null || die "tailscaled não subiu; veja $ts_dir/tailscaled.log"
+		kill -0 "$ts_pid" 2>/dev/null || sh_die "$(_ "tailscaled não subiu; veja %s" "$ts_dir/tailscaled.log")"
 		sleep 0.5
 	done
-	[[ -S $ts_sock ]] || die "tailscaled não respondeu"
+	[[ -S $ts_sock ]] || sh_die "$(_ "tailscaled não respondeu")"
 
-	info "entrando na rede do técnico como $nome"
+	sh_info "$(_ "entrando na rede do técnico como %s" "$nome")"
 	if ! timeout 60 tailscale --socket="$ts_sock" up \
 		--auth-key="$ts_authkey" \
 		--advertise-tags="$ts_tag" \
@@ -238,42 +306,42 @@ cmd_tailscale() {
 		--accept-risk=lose-ssh \
 		--accept-dns=false \
 		--accept-routes=false; then
-		die "não consegui conectar; confira a internet e a ts_authkey"
+		sh_die "$(_ "não consegui conectar; confira a internet e a ts_authkey")"
 	fi
 
 	local ip acesso
-	ip=$(ts ip -4 2>/dev/null | head -n1)
+	ip=$(sh_ts ip -4 2>/dev/null | head -n1)
 	if ((compartilhar)); then
-		acesso="voidbr-suporte entrar ${ip:-$nome}"
+		acesso="voidbr-suporte --connect ${ip:-$nome}"
 	else
-		acesso="voidbr-suporte entrar ${ip:-$nome}"
+		acesso="voidbr-suporte --connect ${ip:-$nome}"
 	fi
 
-	banner
-	printf 'Nome desta máquina para o técnico:\n\n  %s%s%s  (%s)\n\n' \
-		"$yellow$bold" "$nome" "$reset" "${ip:-sem IP}"
-	printf 'O técnico acessa com:\n  %s\n\n' "$acesso"
-	avisar_tecnico "$acesso"
+	sh_banner
+	printf '%s\n\n  %s%s%s  (%s)\n\n' "$(_ "Nome desta máquina para o técnico:")" \
+		"$yellow$bold" "$nome" "$reset" "${ip:-$(_ "sem IP")}"
+	printf '%s\n  %s\n\n' "$(_ "O técnico acessa com:")" "$acesso"
+	sh_avisar_tecnico "$acesso"
 
 	if ((compartilhar)); then
-		printf 'O técnico verá e digitará neste terminal junto com você.\n'
-		printf 'Para %sENCERRAR o suporte%s, digite: %sexit%s\n\n' "$bold" "$reset" "$red$bold" "$reset"
+		printf '%s\n' "$(_ "O técnico verá e digitará neste terminal junto com você.")"
+		printf '%s\n\n' "$(_ "Para %sENCERRAR o suporte%s, digite: %sexit%s" "$bold" "$reset" "$red$bold" "$reset")"
 		if ((auto)); then
 			sleep 2
 		else
-			read -rp "Pressione Enter para abrir o terminal compartilhado..."
+			read -rp "$(_ "Pressione Enter para abrir o terminal compartilhado...")"
 		fi
-		abrir_shell "$nome" "$ip" "$usuario"
+		sh_abrir_shell "$nome" "$ip" "$usuario"
 	else
-		printf 'O técnico usará um terminal próprio nesta máquina.\n'
+		printf '%s\n' "$(_ "O técnico usará um terminal próprio nesta máquina.")"
 		if ((auto)); then
-			printf 'Para %sENCERRAR o suporte%s, pressione %sCtrl+C%s\n' "$bold" "$reset" "$red$bold" "$reset"
+			printf '%s\n' "$(_ "Para %sENCERRAR o suporte%s, pressione %sCtrl+C%s" "$bold" "$reset" "$red$bold" "$reset")"
 			while :; do sleep 3600; done
 		else
-			read -rp "Pressione Enter para ENCERRAR o suporte..."
+			read -rp "$(_ "Pressione Enter para ENCERRAR o suporte...")"
 		fi
 	fi
-	# ts_limpar roda no EXIT
+	# sh_ts_limpar roda no EXIT
 }
 
 # =========================================================================
@@ -281,7 +349,7 @@ cmd_tailscale() {
 # =========================================================================
 
 # monta o comando ssh da sessão atual (só funciona DENTRO da sessão)
-ssh_da_sessao() {
+sh_ssh_da_sessao() {
 	local linha id host porta
 	linha=$(upterm session current 2>/dev/null |
 		sed -n 's/^[[:space:]]*SSH Session:[[:space:]]*//p' | head -n1)
@@ -303,30 +371,30 @@ ssh_da_sessao() {
 }
 
 # roda DENTRO da sessão upterm
-cmd_upterm_dentro() {
-	local ssh_cmd="" _
-	for _ in 1 2 3 4 5; do
-		ssh_cmd=$(ssh_da_sessao) && break
+sh_upterm_dentro() {
+	local ssh_cmd="" i
+	for i in 1 2 3 4 5; do
+		ssh_cmd=$(sh_ssh_da_sessao) && break
 		sleep 1
 	done
 
-	banner
+	sh_banner
 	if [[ -n $ssh_cmd ]]; then
-		printf 'Passe para o técnico:\n\n  %s%s%s\n\n' "$yellow$bold" "$ssh_cmd" "$reset"
-		mostrar_qr "$ssh_cmd"
-		avisar_tecnico "$ssh_cmd"
+		printf '%s\n\n  %s%s%s\n\n' "$(_ "Passe para o técnico:")" "$yellow$bold" "$ssh_cmd" "$reset"
+		sh_mostrar_qr "$ssh_cmd"
+		sh_avisar_tecnico "$ssh_cmd"
 	else
-		warn "não consegui ler o comando de acesso; rode: upterm session current"
+		sh_warn "$(_ "não consegui ler o comando de acesso; rode: %s" "upterm session current")"
 	fi
 
-	printf '\nO técnico verá e digitará neste terminal junto com você.\n'
-	printf 'Para %sENCERRAR o suporte%s, digite: %sexit%s\n\n' "$bold" "$reset" "$red$bold" "$reset"
+	printf '\n%s\n' "$(_ "O técnico verá e digitará neste terminal junto com você.")"
+	printf '%s\n\n' "$(_ "Para %sENCERRAR o suporte%s, digite: %sexit%s" "$bold" "$reset" "$red$bold" "$reset")"
 
 	exec "${SHELL:-/bin/bash}" -l
 }
 
-cmd_upterm() {
-	need upterm
+sh_upterm() {
+	sh_need upterm
 
 	local -a args=(host --server "$servidor" --skip-host-key-check)
 	local autorizados=0 u
@@ -339,11 +407,11 @@ cmd_upterm() {
 		args+=(--authorized-keys "$tecnicos_chaves")
 		autorizados=1
 	fi
-	((autorizados)) || die "nenhum técnico configurado em $conf (tecnicos_github ou tecnicos_chaves)"
+	((autorizados)) || sh_die "$(_ "nenhum técnico configurado em %s (tecnicos_github ou tecnicos_chaves)" "$conf")"
 	((perguntar)) || args+=(--accept)
 
-	msg "Iniciando suporte remoto (upterm)"
-	info "conectando em ${servidor#*://}..."
+	sh_msg "$(_ "Iniciando suporte remoto (upterm)")"
+	sh_info "$(_ "conectando em %s..." "${servidor#*://}")"
 	exec upterm "${args[@]}" -- "$(readlink -f "$0")" _upterm_dentro
 }
 
@@ -351,38 +419,39 @@ cmd_upterm() {
 # lado do técnico
 # =========================================================================
 # linhas "IP NOME ESTADO..." das máquinas de suporte online
-ts_suporte() {
+sh_ts_suporte() {
 	tailscale status 2>/dev/null | awk '$2 ~ /^suporte-/'
 }
 
 # extrai o usuário do nome: suporte-<usuario>-<host>-<xxxx>
-usuario_do_nome() {
+sh_usuario_do_nome() {
 	local n=${1#suporte-}
 	printf '%s' "${n%%-*}"
 }
 
-cmd_lista() {
-	need tailscale
+sh_list() {
+	sh_need tailscale
 	local linhas
-	linhas=$(ts_suporte)
+	linhas=$(sh_ts_suporte)
 	if [[ -z $linhas ]]; then
-		info "nenhuma máquina de suporte online"
+		sh_info "$(_ "nenhuma máquina de suporte online")"
 		return 0
 	fi
-	printf '%s%-16s %-13s %-40s %s%s\n' "$bold" "IP" "USUÁRIO" "NOME" "ESTADO" "$reset"
-	local ip nome _ resto
-	while read -r ip nome _ _ resto; do
-		printf '%-16s %-12s %-40s %s\n' "$ip" "$(usuario_do_nome "$nome")" "$nome" "$resto"
+	printf '%s%s %s %s %s%s\n' "$bold" "$(sh_col "$(_ "IP")" 16)" "$(sh_col "$(_ "USUÁRIO")" 12)" \
+		"$(sh_col "$(_ "NOME")" 40)" "$(_ "ESTADO")" "$reset"
+	local ip nome x resto
+	while read -r ip nome x x resto; do
+		printf '%-16s %-12s %-40s %s\n' "$ip" "$(sh_usuario_do_nome "$nome")" "$nome" "$resto"
 	done <<<"$linhas"
 }
 
-# entrar [nome|parte-do-nome|IP] [usuario]
-cmd_entrar() {
-	need tailscale ssh
-	local alvo=${1:-} usuario=${2:-} linhas achados qtd ip nome
+# sh_connect [nome|parte-do-nome|IP] [usuario]
+sh_connect() {
+	sh_need tailscale ssh
+	local alvo=${1:-} usuario=${2:-} linhas achados qtd ip nome x
 
-	linhas=$(ts_suporte)
-	[[ -n $linhas ]] || die "nenhuma máquina de suporte online"
+	linhas=$(sh_ts_suporte)
+	[[ -n $linhas ]] || sh_die "$(_ "nenhuma máquina de suporte online")"
 
 	if [[ -z $alvo ]]; then
 		achados=$linhas
@@ -398,21 +467,21 @@ cmd_entrar() {
 
 	qtd=$(grep -c . <<<"$achados")
 	case $qtd in
-	0) die "nenhuma máquina de suporte corresponde a '$alvo'" ;;
+	0) sh_die "$(_ "nenhuma máquina de suporte corresponde a '%s'" "$alvo")" ;;
 	1) ;;
 	*)
-		cmd_lista
-		die "mais de uma máquina corresponde; informe o nome ou o IP"
+		sh_list
+		sh_die "$(_ "mais de uma máquina corresponde; informe o nome ou o IP")"
 		;;
 	esac
 
-	read -r ip nome _ <<<"$achados"
+	read -r ip nome x <<<"$achados"
 	if [[ -z $usuario ]]; then
-		[[ $nome != - ]] && usuario=$(usuario_do_nome "$nome")
-		[[ -n $usuario ]] || die "não sei o usuário de $ip; use: $prog entrar $ip <usuario>"
+		[[ $nome != - ]] && usuario=$(sh_usuario_do_nome "$nome")
+		[[ -n $usuario ]] || sh_die "$(_ "não sei o usuário de %s; use: %s --connect %s <usuario>" "$ip" "$APP" "$ip")"
 	fi
 
-	msg "Entrando em $usuario@${nome/#-/$ip} ($ip)"
+	sh_msg "$(_ "Entrando em %s (%s)" "$usuario@${nome/#-/$ip}" "$ip")"
 	if ((compartilhar)); then
 		# máquinas de suporte são efêmeras: a chave muda a cada atendimento e o
 		# IP pode ser reaproveitado, então não guardamos em known_hosts.
@@ -426,72 +495,93 @@ cmd_entrar() {
 	else
 		tailscale ssh "$usuario@$ip"
 	fi
-	falha_entrar $? "$usuario" "$ip"
+	sh_connect_failed $? "$usuario" "$ip"
 }
 
-# falha_entrar <rc> <usuario> <ip>  -> explica por que não entrou
-falha_entrar() {
+# sh_connect_failed <rc> <usuario> <ip>  -> explica por que não entrou
+sh_connect_failed() {
 	local rc=$1 usuario=$2 ip=$3
 	((rc == 0)) && return 0
 
-	printf '%s==> ERRO:%s não consegui entrar como '"'"'%s'"'"' em %s (código %s)\n' \
-		"$red$bold" "$reset" "$usuario" "$ip" "$rc" >&2
+	sh_erro "$(_ "não consegui entrar como '%s' em %s (código %s)" "$usuario" "$ip" "$rc")"
 	if ((rc == 255)); then
-		info "a conexão ou o login foi recusado" >&2
+		sh_info "$(_ "a conexão ou o login foi recusado")" >&2
 	else
-		info "entrou, mas a sessão '$tmux_sessao' do tmux não abriu (no sessions?)" >&2
+		sh_info "$(_ "entrou, mas a sessão '%s' do tmux não abriu (no sessions?)" "$tmux_sessao")" >&2
 	fi
-	info "o remoto pode estar com versão antiga do voidbr-suporte, ou o usuário é outro" >&2
-	info "tente: $prog entrar $ip <usuario>" >&2
+	sh_info "$(_ "o remoto pode estar com versão antiga do voidbr-suporte, ou o usuário é outro")" >&2
+	sh_info "$(_ "tente: %s --connect %s <usuario>" "$APP" "$ip")" >&2
 	exit "$rc"
 }
 
-cmd_ouvir() {
-	[[ -n $ntfy_topico ]] || die "defina ntfy_topico em $conf"
-	need curl
-	msg "Aguardando chamados em $ntfy_url/$ntfy_topico (Ctrl+C para sair)"
+sh_listen() {
+	[[ -n $ntfy_topico ]] || sh_die "$(_ "defina ntfy_topico em %s" "$conf")"
+	sh_need curl
+	sh_msg "$(_ "Aguardando chamados em %s (Ctrl+C para sair)" "$ntfy_url/$ntfy_topico")"
 	curl -fsSN "$ntfy_url/$ntfy_topico/raw" | while IFS= read -r linha; do
 		[[ -n $linha ]] || continue
-		printf '\n%s[%s] novo chamado:%s\n  %s\n' "$green$bold" "$(date +%H:%M:%S)" "$reset" "$linha"
+		printf '\n%s[%s] %s%s\n  %s\n' "$green$bold" "$(date +%H:%M:%S)" "$(_ "novo chamado:")" "$reset" "$linha"
 	done
 }
 
-usage() {
-	cat <<-EOF
-		${bold}uso:${reset} $prog [comando]
+sh_usage() {
+	local g=$green r=$reset b=$bold
+	printf '%s%s%s %s %s\n\n' "$b" "$(_ "uso:")" "$r" "$APP" "$(_ "[opções]")"
 
-		${bold}Usuário:${reset}
-		  ${green}(nada)${reset}                    inicia o suporte no modo padrão ($modo)
-		  ${green}tailscale${reset}                 inicia pelo Tailscale
-		  ${green}upterm${reset}                    inicia pelo upterm
+	printf '%s%s%s\n' "$b" "$(_ "Usuário (pedir suporte):")" "$r"
+	printf '  %s%s%s %s\n' "$g" "$(sh_col "$(_ "(sem opções)")" 31)" "$r" "$(_ "inicia o suporte (modo do .conf: %s)" "$modo")"
+	printf '  %s%s%s %s\n' "$g" "$(sh_col "-t, --tailscale" 31)" "$r" "$(_ "força o modo Tailscale")"
+	printf '  %s%s%s %s\n\n' "$g" "$(sh_col "-u, --upterm" 31)" "$r" "$(_ "força o modo upterm")"
 
-		${bold}Técnico:${reset}
-		  ${green}lista${reset}                     máquinas de suporte online (tailscale)
-		  ${green}entrar${reset} [nome|IP] [usuario] entra na máquina (usuário vem do nome)
-		  ${green}ouvir${reset}                     aguarda chamados via ntfy
+	printf '%s%s%s\n' "$b" "$(_ "Técnico (dar suporte):")" "$r"
+	printf '  %s%s%s %s\n' "$g" "$(sh_col "-l, --list" 31)" "$r" "$(_ "máquinas aguardando suporte")"
+	printf '  %s%s%s %s\n' "$g" "$(sh_col "-c, --connect $(_ "[alvo] [usuario]")" 31)" "$r" "$(_ "conecta na máquina (nome, parte do nome ou IP)")"
+	printf '  %s%s%s %s\n\n' "$g" "$(sh_col "-n, --listen" 31)" "$r" "$(_ "aguarda chamados via ntfy")"
 
-		Configuração: $conf
-	EOF
+	printf '%s%s%s\n' "$b" "$(_ "Gerais:")" "$r"
+	printf '  %s%s%s %s\n' "$g" "$(sh_col "-h, --help" 31)" "$r" "$(_ "mostra esta ajuda")"
+	printf '  %s%s%s %s\n\n' "$g" "$(sh_col "-V, --version" 31)" "$r" "$(_ "mostra a versão")"
+
+	printf '%s%s%s\n' "$b" "$(_ "Exemplos:")" "$r"
+	printf '  %s # %s\n' "$(sh_col "$APP" 33)" "$(_ "usuário pede suporte")"
+	printf '  %s # %s\n' "$(sh_col "$APP -l" 33)" "$(_ "técnico vê quem está aguardando")"
+	printf '  %s # %s\n' "$(sh_col "$APP -c" 33)" "$(_ "conecta (se houver só uma máquina)")"
+	printf '  %s # %s\n\n' "$(sh_col "$APP -c 100.95.244.100" 33)" "$(_ "conecta pelo IP")"
+
+	printf '%s %s\n' "$(_ "Configuração:")" "$conf"
 }
 
 case ${1:-} in
 "") case $modo in
-	tailscale) cmd_tailscale ;;
-	upterm) cmd_upterm ;;
-	*) die "modo inválido em $conf: $modo" ;;
+	tailscale) sh_tailscale ;;
+	upterm) sh_upterm ;;
+	*) sh_die "$(_ "modo inválido em %s: %s" "$conf" "$modo")" ;;
 	esac ;;
-tailscale) cmd_tailscale ;;
-upterm) cmd_upterm ;;
-_upterm_dentro) cmd_upterm_dentro ;;
-lista | ls) cmd_lista ;;
+-t | --tailscale) sh_tailscale ;;
+-u | --upterm) sh_upterm ;;
+-l | --list) sh_list ;;
+-c | --connect)
+	shift
+	sh_connect "$@"
+	;;
+-n | --listen) sh_listen ;;
+-h | --help) sh_usage ;;
+-V | --version) printf '%s %s\n' "$APP" "$_VERSION_" ;;
+_upterm_dentro) sh_upterm_dentro ;;
+# compatibilidade com os comandos antigos (não aparecem na ajuda)
+tailscale) sh_tailscale ;;
+upterm) sh_upterm ;;
+lista | ls) sh_list ;;
 entrar)
 	shift
-	cmd_entrar "$@"
+	sh_connect "$@"
 	;;
-ouvir) cmd_ouvir ;;
-ajuda | -h | --help) usage ;;
+ouvir) sh_listen ;;
+ajuda) sh_usage ;;
 *)
-	usage
+	sh_erro "$(_ "opção inválida: %s" "$1")"
+	printf '\n' >&2
+	sh_usage >&2
 	exit 1
 	;;
 esac

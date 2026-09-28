@@ -22,6 +22,7 @@ depends=(
 	tmux
 	curl
 	qrencode
+    gettext
 )
 # preserva o .conf do usuário (com o ts_authkey) nas atualizações
 backup=(/etc/voidbr-suporte.conf)
