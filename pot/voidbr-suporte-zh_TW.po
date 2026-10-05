@@ -1,22 +1,22 @@
-# Chili Tradutor Go - 2.1.27-20260928
+# Chili Tradutor Go - 2.1.30-20260928
 # Copyright (C) 2019-2026 Vilmar Catafesta <vcatafesta@gmail.com>
-# This file is distributed under the same license as the chili-tradutor-go package.
+# This file is distributed under the same license as the voidbr-suporte package.
 msgid ""
 msgstr ""
-"Project-Id-Version: chili-tradutor-go 2.1.27-20260928\n"
-"POT-Creation-Date: 2026-09-28 19:05-0400\n"
-"PO-Revision-Date: 2026-09-28 19:05-0400\n"
+"Project-Id-Version: voidbr-suporte\n"
+"POT-Creation-Date: 2026-10-04 20:56-0400\n"
+"PO-Revision-Date: 2026-10-04 20:56-0400\n"
 "Last-Translator: Vilmar Catafesta <vcatafesta@gmail.com>\n"
-"Language-Team: Portuguese <https://github.com/chililinux/chili-tradutor-go>\n"
+"Language-Team: zh_TW <https://github.com/chililinux/chili-tradutor-go>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_TW\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: usr/local/bin/voidbr-suporte:105
 msgid "AVISO:"
-msgstr "警告："
+msgstr "注意："
 
 #: usr/local/bin/voidbr-suporte:106
 msgid "ERRO:"
@@ -28,7 +28,7 @@ msgstr "'%s' 未安裝"
 
 #: usr/local/bin/voidbr-suporte:120
 msgid "SUPORTE REMOTO VOIDBR ATIVO"
-msgstr "VOIDBR 遠端支援已啟用"
+msgstr "主動 VOIDBR 遠端支援"
 
 #: usr/local/bin/voidbr-suporte:139
 msgid "curl não instalado; técnico não foi avisado"
@@ -36,7 +36,7 @@ msgstr "未安裝 curl；技術人員未被通知"
 
 #: usr/local/bin/voidbr-suporte:141
 msgid "Suporte VoidBR: %s"
-msgstr "VoidBR 支援: %s"
+msgstr "支援VoidBR：%s"
 
 #: usr/local/bin/voidbr-suporte:144
 msgid "técnico avisado automaticamente"
@@ -54,263 +54,263 @@ msgstr "支援"
 msgid "exit = encerrar"
 msgstr "exit = 退出"
 
-#: usr/local/bin/voidbr-suporte:221
+#: usr/local/bin/voidbr-suporte:222
 msgid "Encerrando o suporte"
 msgstr "結束支持"
 
-#: usr/local/bin/voidbr-suporte:226
+#: usr/local/bin/voidbr-suporte:227
 msgid "máquina removida da rede do técnico"
 msgstr "從技術人員的網絡中移除的機器"
 
-#: usr/local/bin/voidbr-suporte:248
+#: usr/local/bin/voidbr-suporte:249
 msgid "ts_authkey não definido em %s"
 msgstr "ts_authkey 未在 %s 中定義"
 
-#: usr/local/bin/voidbr-suporte:249
-msgid "para PEDIR suporte (usuário): configure o ts_authkey"
-msgstr "要請求支援（使用者）：設定 ts_authkey"
-
 #: usr/local/bin/voidbr-suporte:250
-msgid "para DAR suporte (técnico):   %s --list | --connect"
-msgstr "提供支援（技術上）：%s --list | --connect"
+msgid "para PEDIR suporte (usuário): configure o ts_authkey"
+msgstr "請求支援（使用者）：設定 ts_authkey"
 
-#: usr/local/bin/voidbr-suporte:263
-msgid "Iniciando suporte remoto"
-msgstr "啟動遠端支援"
+#: usr/local/bin/voidbr-suporte:251
+msgid "para DAR suporte (técnico):   %s --list | --connect"
+msgstr "提供（技術）支援：%s --list | - 連接"
 
 #: usr/local/bin/voidbr-suporte:264
+msgid "Iniciando suporte remoto"
+msgstr "開始遠端支援"
+
+#: usr/local/bin/voidbr-suporte:265
 msgid "subindo conexão (modo userspace, estado só em memória)"
 msgstr "啟動連接（使用者空間模式，僅在記憶體中狀態）"
 
-#: usr/local/bin/voidbr-suporte:278
+#: usr/local/bin/voidbr-suporte:279
 msgid "tailscaled não subiu; veja %s"
 msgstr "tailscaled 沒有啟動；請查看 %s"
 
-#: usr/local/bin/voidbr-suporte:281
+#: usr/local/bin/voidbr-suporte:282
 msgid "tailscaled não respondeu"
 msgstr "tailscaled 沒有回應"
 
-#: usr/local/bin/voidbr-suporte:283
+#: usr/local/bin/voidbr-suporte:284
 msgid "entrando na rede do técnico como %s"
 msgstr "以 %s 的身份進入技術人員的網路"
 
-#: usr/local/bin/voidbr-suporte:292
+#: usr/local/bin/voidbr-suporte:293
 msgid "não consegui conectar; confira a internet e a ts_authkey"
 msgstr "無法連接；請檢查網路和 ts_authkey"
 
-#: usr/local/bin/voidbr-suporte:304
-msgid "Nome desta máquina para o técnico:"
-msgstr "給技術人員的這台機器名稱："
-
 #: usr/local/bin/voidbr-suporte:305
-msgid "sem IP"
-msgstr "無 IP"
+msgid "Nome desta máquina para o técnico:"
+msgstr "技術人員的機器名稱："
 
 #: usr/local/bin/voidbr-suporte:306
-msgid "O técnico acessa com:"
-msgstr "技術人員使用以下方式存取："
+msgid "sem IP"
+msgstr "掃描電鏡IP"
 
-#: usr/local/bin/voidbr-suporte:310 usr/local/bin/voidbr-suporte:373
-msgid "O técnico verá e digitará neste terminal junto com você."
-msgstr "技術人員將會和你一起在這個終端上查看並輸入資料。"
+#: usr/local/bin/voidbr-suporte:307
+msgid "O técnico acessa com:"
+msgstr "技術人員透過以下方式存取："
 
 #: usr/local/bin/voidbr-suporte:311 usr/local/bin/voidbr-suporte:374
+msgid "O técnico verá e digitará neste terminal junto com você."
+msgstr "技術人員將與您一起查看該終端並進行輸入。"
+
+#: usr/local/bin/voidbr-suporte:312 usr/local/bin/voidbr-suporte:375
 msgid "Para %sENCERRAR o suporte%s, digite: %sexit%s"
-msgstr "要 %sENCERRAR 支援 %s，請輸入：%sexit%s"
+msgstr "參數 %sENCERRAR o 支援%s，數字：%sexit%s"
 
-#: usr/local/bin/voidbr-suporte:315
+#: usr/local/bin/voidbr-suporte:316
 msgid "Pressione Enter para abrir o terminal compartilhado..."
-msgstr "按下 Enter 鍵以打開共享終端機..."
+msgstr "按 Enter 鍵開啟共用終端機..."
 
-#: usr/local/bin/voidbr-suporte:319
+#: usr/local/bin/voidbr-suporte:320
 msgid "O técnico usará um terminal próprio nesta máquina."
-msgstr "技術員將在這台機器上使用自己的終端機。"
+msgstr "技術人員將使用該機器上的專用終端。"
 
-#: usr/local/bin/voidbr-suporte:321
+#: usr/local/bin/voidbr-suporte:322
 msgid "Para %sENCERRAR o suporte%s, pressione %sCtrl+C%s"
-msgstr "要 %sENCERRAR %s 支援，請按 %sCtrl+C%s"
+msgstr "對於%sENCERRAR或支援%s，請按%sCtrl+C%s"
 
-#: usr/local/bin/voidbr-suporte:324
+#: usr/local/bin/voidbr-suporte:325
 msgid "Pressione Enter para ENCERRAR o suporte..."
-msgstr "按下 Enter 鍵以結束支援..."
+msgstr "按 Enter 結束支援..."
 
-#: usr/local/bin/voidbr-suporte:366
+#: usr/local/bin/voidbr-suporte:367
 msgid "Passe para o técnico:"
-msgstr "轉給技術人員："
+msgstr "將其傳遞給技術人員："
 
-#: usr/local/bin/voidbr-suporte:370
+#: usr/local/bin/voidbr-suporte:371
 msgid "não consegui ler o comando de acesso; rode: %s"
 msgstr "無法讀取存取指令；請執行：%s"
 
-#: usr/local/bin/voidbr-suporte:393
+#: usr/local/bin/voidbr-suporte:394
 msgid "nenhum técnico configurado em %s (tecnicos_github ou tecnicos_chaves)"
 msgstr "%s 中未配置任何技術人員（tecnicos_github 或 tecnicos_chaves）"
 
-#: usr/local/bin/voidbr-suporte:396
+#: usr/local/bin/voidbr-suporte:397
 msgid "Iniciando suporte remoto (upterm)"
 msgstr "啟動遠端支援（upterm）"
 
-#: usr/local/bin/voidbr-suporte:397
+#: usr/local/bin/voidbr-suporte:398
 msgid "conectando em %s..."
 msgstr "正在連接到 %s..."
 
-#: usr/local/bin/voidbr-suporte:420 usr/local/bin/voidbr-suporte:437
+#: usr/local/bin/voidbr-suporte:421 usr/local/bin/voidbr-suporte:438
 msgid "nenhuma máquina de suporte online"
 msgstr "沒有線上支援機器"
 
-#: usr/local/bin/voidbr-suporte:423
+#: usr/local/bin/voidbr-suporte:424
 msgid "IP"
-msgstr "IP"
+msgstr "智慧財產"
 
-#: usr/local/bin/voidbr-suporte:423
+#: usr/local/bin/voidbr-suporte:424
 msgid "USUÁRIO"
 msgstr "使用者"
 
-#: usr/local/bin/voidbr-suporte:424
+#: usr/local/bin/voidbr-suporte:425
 msgid "NOME"
 msgstr "姓名"
 
-#: usr/local/bin/voidbr-suporte:424
+#: usr/local/bin/voidbr-suporte:425
 msgid "ESTADO"
-msgstr "州"
+msgstr "狀態"
 
-#: usr/local/bin/voidbr-suporte:453
+#: usr/local/bin/voidbr-suporte:454
 msgid "nenhuma máquina de suporte corresponde a '%s'"
 msgstr "沒有支援的機器對應於 '%s'"
 
-#: usr/local/bin/voidbr-suporte:455
+#: usr/local/bin/voidbr-suporte:456
 msgid "mais de uma máquina corresponde; informe o nome ou o IP"
-msgstr "多於一台機器符合；請提供名稱或 IP"
+msgstr "多於一台機器匹配；輸入您的姓名或IP"
 
-#: usr/local/bin/voidbr-suporte:461
+#: usr/local/bin/voidbr-suporte:462
 msgid "não sei o usuário de %s; use: %s --connect %s <usuario>"
 msgstr "不知道 %s 的使用者；請使用：%s --connect %s <使用者>"
 
-#: usr/local/bin/voidbr-suporte:464
+#: usr/local/bin/voidbr-suporte:465
 msgid "Entrando em %s (%s)"
 msgstr "進入 %s (%s)"
 
-#: usr/local/bin/voidbr-suporte:486
+#: usr/local/bin/voidbr-suporte:487
 msgid "não consegui entrar como '%s' em %s (código %s)"
 msgstr "無法以 '%s' 登入 %s（代碼 %s）"
 
-#: usr/local/bin/voidbr-suporte:488
+#: usr/local/bin/voidbr-suporte:489
 msgid "a conexão ou o login foi recusado"
 msgstr "連線或登入被拒絕"
 
-#: usr/local/bin/voidbr-suporte:490
+#: usr/local/bin/voidbr-suporte:491
 msgid "entrou, mas a sessão '%s' do tmux não abriu (no sessions?)"
 msgstr "進去了，但 tmux 的 '%s' 會話沒有打開（沒有會話嗎？）"
 
-#: usr/local/bin/voidbr-suporte:492
+#: usr/local/bin/voidbr-suporte:493
 msgid ""
 "o remoto pode estar com versão antiga do voidbr-suporte, ou o usuário é outro"
 msgstr "遠端可能使用的是舊版本的 voidbr-suporte，或者使用者是其他人"
 
-#: usr/local/bin/voidbr-suporte:493
+#: usr/local/bin/voidbr-suporte:494
 msgid "tente: %s --connect %s <usuario>"
 msgstr "嘗試：%s --connect %s <usuario>"
 
-#: usr/local/bin/voidbr-suporte:498
+#: usr/local/bin/voidbr-suporte:499
 msgid "defina ntfy_topico em %s"
 msgstr "在 %s 中定義 ntfy_topico"
 
-#: usr/local/bin/voidbr-suporte:500
+#: usr/local/bin/voidbr-suporte:501
 msgid "Aguardando chamados em %s (Ctrl+C para sair)"
-msgstr "正在等待 %s 的呼叫（按 Ctrl+C 退出）"
+msgstr "在%s中等待呼叫（Ctrl+C退出）"
 
-#: usr/local/bin/voidbr-suporte:503
+#: usr/local/bin/voidbr-suporte:504
 msgid "novo chamado:"
 msgstr "新來電："
 
-#: usr/local/bin/voidbr-suporte:509
+#: usr/local/bin/voidbr-suporte:510
 msgid "uso:"
 msgstr "使用："
 
-#: usr/local/bin/voidbr-suporte:509
+#: usr/local/bin/voidbr-suporte:510
 msgid "[opções]"
 msgstr "[選項]"
 
-#: usr/local/bin/voidbr-suporte:511
-msgid "Usuário (pedir suporte):"
-msgstr "使用者（請求支援）："
-
 #: usr/local/bin/voidbr-suporte:512
+msgid "Usuário (pedir suporte):"
+msgstr "使用者（尋求支援）："
+
+#: usr/local/bin/voidbr-suporte:513
 msgid "(sem opções)"
 msgstr "(無選項)"
 
-#: usr/local/bin/voidbr-suporte:512
+#: usr/local/bin/voidbr-suporte:513
 msgid "inicia o suporte (modo do .conf: %s)"
 msgstr "啟動支援（.conf 模式：%s）"
 
-#: usr/local/bin/voidbr-suporte:513
+#: usr/local/bin/voidbr-suporte:514
 msgid "força o modo Tailscale"
 msgstr "強制 Tailscale 模式"
 
-#: usr/local/bin/voidbr-suporte:514
+#: usr/local/bin/voidbr-suporte:515
 msgid "força o modo upterm"
 msgstr "強制啟用 upterm 模式"
 
-#: usr/local/bin/voidbr-suporte:516
-msgid "Técnico (dar suporte):"
-msgstr "技術人員（提供支援）:"
-
 #: usr/local/bin/voidbr-suporte:517
+msgid "Técnico (dar suporte):"
+msgstr "技術支援）："
+
+#: usr/local/bin/voidbr-suporte:518
 msgid "máquinas aguardando suporte"
 msgstr "機器等待支援"
 
-#: usr/local/bin/voidbr-suporte:518
+#: usr/local/bin/voidbr-suporte:519
 msgid "[alvo] [usuario]"
 msgstr "[目標] [使用者]"
 
-#: usr/local/bin/voidbr-suporte:518
-msgid "conecta na máquina (nome, parte do nome ou IP)"
-msgstr "連接到機器（名稱、名稱的一部分或 IP）"
-
 #: usr/local/bin/voidbr-suporte:519
+msgid "conecta na máquina (nome, parte do nome ou IP)"
+msgstr "連接到機器（名稱、部分名稱或 IP）"
+
+#: usr/local/bin/voidbr-suporte:520
 msgid "aguarda chamados via ntfy"
 msgstr "等待通過 ntfy 的呼叫"
 
-#: usr/local/bin/voidbr-suporte:521
-msgid "Gerais:"
-msgstr "一般:"
-
 #: usr/local/bin/voidbr-suporte:522
+msgid "Gerais:"
+msgstr "一般的："
+
+#: usr/local/bin/voidbr-suporte:523
 msgid "mostra esta ajuda"
 msgstr "顯示此幫助"
 
-#: usr/local/bin/voidbr-suporte:523
+#: usr/local/bin/voidbr-suporte:524
 msgid "mostra a versão"
 msgstr "顯示版本"
 
-#: usr/local/bin/voidbr-suporte:525
+#: usr/local/bin/voidbr-suporte:526
 msgid "Exemplos:"
 msgstr "範例："
 
-#: usr/local/bin/voidbr-suporte:526
+#: usr/local/bin/voidbr-suporte:527
 msgid "usuário pede suporte"
 msgstr "使用者請求支援"
 
-#: usr/local/bin/voidbr-suporte:527
+#: usr/local/bin/voidbr-suporte:528
 msgid "técnico vê quem está aguardando"
 msgstr "技術人員查看誰正在等待"
 
-#: usr/local/bin/voidbr-suporte:528
+#: usr/local/bin/voidbr-suporte:529
 msgid "conecta (se houver só uma máquina)"
 msgstr "連接（如果只有一台機器）"
 
-#: usr/local/bin/voidbr-suporte:529
+#: usr/local/bin/voidbr-suporte:530
 msgid "conecta pelo IP"
-msgstr "透過 IP 連接"
+msgstr "透過IP連接"
 
-#: usr/local/bin/voidbr-suporte:531
+#: usr/local/bin/voidbr-suporte:532
 msgid "Configuração:"
-msgstr "設定："
+msgstr "設定:"
 
-#: usr/local/bin/voidbr-suporte:538
+#: usr/local/bin/voidbr-suporte:539
 msgid "modo inválido em %s: %s"
 msgstr "%s 中的無效模式：%s"
 
-#: usr/local/bin/voidbr-suporte:555
+#: usr/local/bin/voidbr-suporte:556
 msgid "opção inválida: %s"
 msgstr "無效選項：%s"

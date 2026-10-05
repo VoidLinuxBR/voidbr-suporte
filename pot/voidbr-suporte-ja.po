@@ -1,22 +1,22 @@
-# Chili Tradutor Go - 2.1.27-20260928
+# Chili Tradutor Go - 2.1.30-20260928
 # Copyright (C) 2019-2026 Vilmar Catafesta <vcatafesta@gmail.com>
-# This file is distributed under the same license as the chili-tradutor-go package.
+# This file is distributed under the same license as the voidbr-suporte package.
 msgid ""
 msgstr ""
-"Project-Id-Version: chili-tradutor-go 2.1.27-20260928\n"
-"POT-Creation-Date: 2026-09-28 19:05-0400\n"
-"PO-Revision-Date: 2026-09-28 19:05-0400\n"
+"Project-Id-Version: voidbr-suporte\n"
+"POT-Creation-Date: 2026-10-04 20:57-0400\n"
+"PO-Revision-Date: 2026-10-04 20:57-0400\n"
 "Last-Translator: Vilmar Catafesta <vcatafesta@gmail.com>\n"
-"Language-Team: Portuguese <https://github.com/chililinux/chili-tradutor-go>\n"
+"Language-Team: ja <https://github.com/chililinux/chili-tradutor-go>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ja\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: usr/local/bin/voidbr-suporte:105
 msgid "AVISO:"
-msgstr "警告："
+msgstr "知らせ："
 
 #: usr/local/bin/voidbr-suporte:106
 msgid "ERRO:"
@@ -28,7 +28,7 @@ msgstr "'%s' がインストールされていません"
 
 #: usr/local/bin/voidbr-suporte:120
 msgid "SUPORTE REMOTO VOIDBR ATIVO"
-msgstr "VOIDBR リモートサポートアクティブ"
+msgstr "アクティブな VOIDBR リモート サポート"
 
 #: usr/local/bin/voidbr-suporte:139
 msgid "curl não instalado; técnico não foi avisado"
@@ -36,7 +36,7 @@ msgstr "curl がインストールされていません；技術者に通知さ�
 
 #: usr/local/bin/voidbr-suporte:141
 msgid "Suporte VoidBR: %s"
-msgstr "VoidBRサポート: %s"
+msgstr "サポート無効BR: %s"
 
 #: usr/local/bin/voidbr-suporte:144
 msgid "técnico avisado automaticamente"
@@ -54,263 +54,263 @@ msgstr "サポート"
 msgid "exit = encerrar"
 msgstr "exit = 終了"
 
-#: usr/local/bin/voidbr-suporte:221
+#: usr/local/bin/voidbr-suporte:222
 msgid "Encerrando o suporte"
-msgstr "サポートを終了する"
+msgstr "サポート終了"
 
-#: usr/local/bin/voidbr-suporte:226
+#: usr/local/bin/voidbr-suporte:227
 msgid "máquina removida da rede do técnico"
 msgstr "技術者のネットワークから取り外された機械"
 
-#: usr/local/bin/voidbr-suporte:248
+#: usr/local/bin/voidbr-suporte:249
 msgid "ts_authkey não definido em %s"
 msgstr "%s で ts_authkey が定義されていません"
 
-#: usr/local/bin/voidbr-suporte:249
-msgid "para PEDIR suporte (usuário): configure o ts_authkey"
-msgstr "サポートを依頼するには（ユーザー）：ts_authkeyを設定してください"
-
 #: usr/local/bin/voidbr-suporte:250
-msgid "para DAR suporte (técnico):   %s --list | --connect"
-msgstr "サポート（技術的）を提供するために: %s --list | --connect"
+msgid "para PEDIR suporte (usuário): configure o ts_authkey"
+msgstr "サポートを求める場合 (ユーザー): ts_authkey を構成します"
 
-#: usr/local/bin/voidbr-suporte:263
-msgid "Iniciando suporte remoto"
-msgstr "リモートサポートを開始しています"
+#: usr/local/bin/voidbr-suporte:251
+msgid "para DAR suporte (técnico):   %s --list | --connect"
+msgstr "(技術) サポートを提供するには: %s --list | - 接続する"
 
 #: usr/local/bin/voidbr-suporte:264
+msgid "Iniciando suporte remoto"
+msgstr "リモートサポートを開始します"
+
+#: usr/local/bin/voidbr-suporte:265
 msgid "subindo conexão (modo userspace, estado só em memória)"
 msgstr "接続を立ち上げ中（ユーザースペースモード、メモリ上のみの状態）"
 
-#: usr/local/bin/voidbr-suporte:278
+#: usr/local/bin/voidbr-suporte:279
 msgid "tailscaled não subiu; veja %s"
 msgstr "tailscaledが起動しませんでした；%sを確認してください"
 
-#: usr/local/bin/voidbr-suporte:281
+#: usr/local/bin/voidbr-suporte:282
 msgid "tailscaled não respondeu"
 msgstr "tailscaled が応答しませんでした"
 
-#: usr/local/bin/voidbr-suporte:283
+#: usr/local/bin/voidbr-suporte:284
 msgid "entrando na rede do técnico como %s"
 msgstr "%sとして技術者のネットワークに入る"
 
-#: usr/local/bin/voidbr-suporte:292
+#: usr/local/bin/voidbr-suporte:293
 msgid "não consegui conectar; confira a internet e a ts_authkey"
 msgstr "接続できませんでした。インターネットとts_authkeyを確認してください"
 
-#: usr/local/bin/voidbr-suporte:304
-msgid "Nome desta máquina para o técnico:"
-msgstr "この機械の名前（技術者用）:"
-
 #: usr/local/bin/voidbr-suporte:305
-msgid "sem IP"
-msgstr "IPなし"
+msgid "Nome desta máquina para o técnico:"
+msgstr "技術者向けのこのマシンの名前:"
 
 #: usr/local/bin/voidbr-suporte:306
-msgid "O técnico acessa com:"
-msgstr "技術者は次の方法でアクセスします:"
+msgid "sem IP"
+msgstr "セミIP"
 
-#: usr/local/bin/voidbr-suporte:310 usr/local/bin/voidbr-suporte:373
-msgid "O técnico verá e digitará neste terminal junto com você."
-msgstr "技術者はあなたと一緒にこの端末で見て入力します。"
+#: usr/local/bin/voidbr-suporte:307
+msgid "O técnico acessa com:"
+msgstr "技術者は次の方法でアクセスします。"
 
 #: usr/local/bin/voidbr-suporte:311 usr/local/bin/voidbr-suporte:374
+msgid "O técnico verá e digitará neste terminal junto com você."
+msgstr "技術者はあなたと一緒にこの端末を見て入力します。"
+
+#: usr/local/bin/voidbr-suporte:312 usr/local/bin/voidbr-suporte:375
 msgid "Para %sENCERRAR o suporte%s, digite: %sexit%s"
-msgstr "%sのサポート%sを終了するには、次のように入力してください: %s終了%s"
+msgstr "パラ %sENCERRAR サポート %s、数字: %sexit%s"
 
-#: usr/local/bin/voidbr-suporte:315
+#: usr/local/bin/voidbr-suporte:316
 msgid "Pressione Enter para abrir o terminal compartilhado..."
-msgstr "Enterキーを押して共有ターミナルを開きます..."
+msgstr "Enter を押して共有ターミナルを開きます..."
 
-#: usr/local/bin/voidbr-suporte:319
+#: usr/local/bin/voidbr-suporte:320
 msgid "O técnico usará um terminal próprio nesta máquina."
-msgstr "技術者はこの機械で専用の端末を使用します。"
+msgstr "技術者はこのマシンの専用端末を使用します。"
 
-#: usr/local/bin/voidbr-suporte:321
+#: usr/local/bin/voidbr-suporte:322
 msgid "Para %sENCERRAR o suporte%s, pressione %sCtrl+C%s"
-msgstr "%sのサポート%sを終了するには、%sCtrl+C%sを押してください"
+msgstr "%sENCERRAR または %s をサポートする場合は、%sCtrl+C%s を押してください"
 
-#: usr/local/bin/voidbr-suporte:324
+#: usr/local/bin/voidbr-suporte:325
 msgid "Pressione Enter para ENCERRAR o suporte..."
-msgstr "サポートを終了するにはEnterキーを押してください..."
+msgstr "Enter を押してサポートを終了します..."
 
-#: usr/local/bin/voidbr-suporte:366
+#: usr/local/bin/voidbr-suporte:367
 msgid "Passe para o técnico:"
-msgstr "技術者に渡してください:"
+msgstr "それを技術者に渡します。"
 
-#: usr/local/bin/voidbr-suporte:370
+#: usr/local/bin/voidbr-suporte:371
 msgid "não consegui ler o comando de acesso; rode: %s"
 msgstr "アクセスコマンドを読むことができませんでした；次を実行してください：%s"
 
-#: usr/local/bin/voidbr-suporte:393
+#: usr/local/bin/voidbr-suporte:394
 msgid "nenhum técnico configurado em %s (tecnicos_github ou tecnicos_chaves)"
 msgstr "%s（tecnicos_github または tecnicos_chaves）に設定された技術者はいません"
 
-#: usr/local/bin/voidbr-suporte:396
-msgid "Iniciando suporte remoto (upterm)"
-msgstr "リモートサポート（upterm）を開始しています"
-
 #: usr/local/bin/voidbr-suporte:397
+msgid "Iniciando suporte remoto (upterm)"
+msgstr "リモートサポート開始（終了）"
+
+#: usr/local/bin/voidbr-suporte:398
 msgid "conectando em %s..."
 msgstr "%s に接続中..."
 
-#: usr/local/bin/voidbr-suporte:420 usr/local/bin/voidbr-suporte:437
+#: usr/local/bin/voidbr-suporte:421 usr/local/bin/voidbr-suporte:438
 msgid "nenhuma máquina de suporte online"
 msgstr "オンラインサポートマシンなし"
 
-#: usr/local/bin/voidbr-suporte:423
+#: usr/local/bin/voidbr-suporte:424
 msgid "IP"
 msgstr "IP"
 
-#: usr/local/bin/voidbr-suporte:423
+#: usr/local/bin/voidbr-suporte:424
 msgid "USUÁRIO"
 msgstr "ユーザー"
 
-#: usr/local/bin/voidbr-suporte:424
+#: usr/local/bin/voidbr-suporte:425
 msgid "NOME"
 msgstr "名前"
 
-#: usr/local/bin/voidbr-suporte:424
+#: usr/local/bin/voidbr-suporte:425
 msgid "ESTADO"
 msgstr "州"
 
-#: usr/local/bin/voidbr-suporte:453
+#: usr/local/bin/voidbr-suporte:454
 msgid "nenhuma máquina de suporte corresponde a '%s'"
 msgstr "'%s' に対応するサポートマシンはありません"
 
-#: usr/local/bin/voidbr-suporte:455
+#: usr/local/bin/voidbr-suporte:456
 msgid "mais de uma máquina corresponde; informe o nome ou o IP"
-msgstr "複数のマシンに対応しています。名前またはIPを入力してください"
+msgstr "複数のマシンが一致します。名前またはIPアドレスを入力してください"
 
-#: usr/local/bin/voidbr-suporte:461
+#: usr/local/bin/voidbr-suporte:462
 msgid "não sei o usuário de %s; use: %s --connect %s <usuario>"
 msgstr "%s のユーザーは分かりません; 次を使用してください: %s --connect %s <ユーザー>"
 
-#: usr/local/bin/voidbr-suporte:464
+#: usr/local/bin/voidbr-suporte:465
 msgid "Entrando em %s (%s)"
-msgstr "%s (%s) に入る"
+msgstr "%s (%s) のエントリー"
 
-#: usr/local/bin/voidbr-suporte:486
+#: usr/local/bin/voidbr-suporte:487
 msgid "não consegui entrar como '%s' em %s (código %s)"
 msgstr "%s に '%s' としてログインできませんでした (コード %s)"
 
-#: usr/local/bin/voidbr-suporte:488
+#: usr/local/bin/voidbr-suporte:489
 msgid "a conexão ou o login foi recusado"
 msgstr "接続またはログインが拒否されました"
 
-#: usr/local/bin/voidbr-suporte:490
+#: usr/local/bin/voidbr-suporte:491
 msgid "entrou, mas a sessão '%s' do tmux não abriu (no sessions?)"
 msgstr "入ったが、tmux の '%s' セッションは開かなかった（セッションはないのか？）"
 
-#: usr/local/bin/voidbr-suporte:492
+#: usr/local/bin/voidbr-suporte:493
 msgid ""
 "o remoto pode estar com versão antiga do voidbr-suporte, ou o usuário é outro"
 msgstr "リモートは古いバージョンの voidbr-suporte を使用している可能性がある、またはユーザーが別の人である"
 
-#: usr/local/bin/voidbr-suporte:493
+#: usr/local/bin/voidbr-suporte:494
 msgid "tente: %s --connect %s <usuario>"
 msgstr "試してみてください: %s --connect %s <ユーザー>"
 
-#: usr/local/bin/voidbr-suporte:498
+#: usr/local/bin/voidbr-suporte:499
 msgid "defina ntfy_topico em %s"
 msgstr "%s で ntfy_topico を定義する"
 
-#: usr/local/bin/voidbr-suporte:500
+#: usr/local/bin/voidbr-suporte:501
 msgid "Aguardando chamados em %s (Ctrl+C para sair)"
-msgstr "%sでの呼び出しを待っています（終了するにはCtrl+C）"
+msgstr "%s で呼び出しを待機しています (Ctrl+C で終了)"
 
-#: usr/local/bin/voidbr-suporte:503
+#: usr/local/bin/voidbr-suporte:504
 msgid "novo chamado:"
 msgstr "新しい通話:"
 
-#: usr/local/bin/voidbr-suporte:509
+#: usr/local/bin/voidbr-suporte:510
 msgid "uso:"
 msgstr "使用:"
 
-#: usr/local/bin/voidbr-suporte:509
+#: usr/local/bin/voidbr-suporte:510
 msgid "[opções]"
 msgstr "[オプション]"
 
-#: usr/local/bin/voidbr-suporte:511
-msgid "Usuário (pedir suporte):"
-msgstr "ユーザー（サポートを依頼）："
-
 #: usr/local/bin/voidbr-suporte:512
+msgid "Usuário (pedir suporte):"
+msgstr "ユーザー (サポートを求める):"
+
+#: usr/local/bin/voidbr-suporte:513
 msgid "(sem opções)"
 msgstr "(オプションなし)"
 
-#: usr/local/bin/voidbr-suporte:512
+#: usr/local/bin/voidbr-suporte:513
 msgid "inicia o suporte (modo do .conf: %s)"
 msgstr "サポートを開始します（.confモード：%s）"
 
-#: usr/local/bin/voidbr-suporte:513
-msgid "força o modo Tailscale"
-msgstr "Tailscaleモードを強制する"
-
 #: usr/local/bin/voidbr-suporte:514
+msgid "força o modo Tailscale"
+msgstr "テールスケールモードを強制する"
+
+#: usr/local/bin/voidbr-suporte:515
 msgid "força o modo upterm"
 msgstr "アップタームモードを強制する"
 
-#: usr/local/bin/voidbr-suporte:516
-msgid "Técnico (dar suporte):"
-msgstr "技術者（サポート）:"
-
 #: usr/local/bin/voidbr-suporte:517
+msgid "Técnico (dar suporte):"
+msgstr "テクニカルサポート）："
+
+#: usr/local/bin/voidbr-suporte:518
 msgid "máquinas aguardando suporte"
 msgstr "サポートを待っている機械"
 
-#: usr/local/bin/voidbr-suporte:518
+#: usr/local/bin/voidbr-suporte:519
 msgid "[alvo] [usuario]"
 msgstr "[ターゲット] [ユーザー]"
 
-#: usr/local/bin/voidbr-suporte:518
-msgid "conecta na máquina (nome, parte do nome ou IP)"
-msgstr "マシンに接続する（名前、名前の一部、またはIP）"
-
 #: usr/local/bin/voidbr-suporte:519
+msgid "conecta na máquina (nome, parte do nome ou IP)"
+msgstr "マシンに接続します (名前、名前の一部、または IP)"
+
+#: usr/local/bin/voidbr-suporte:520
 msgid "aguarda chamados via ntfy"
 msgstr "ntfy経由での呼び出しを待っています"
 
-#: usr/local/bin/voidbr-suporte:521
-msgid "Gerais:"
-msgstr "一般:"
-
 #: usr/local/bin/voidbr-suporte:522
+msgid "Gerais:"
+msgstr "一般的な："
+
+#: usr/local/bin/voidbr-suporte:523
 msgid "mostra esta ajuda"
 msgstr "このヘルプを表示"
 
-#: usr/local/bin/voidbr-suporte:523
+#: usr/local/bin/voidbr-suporte:524
 msgid "mostra a versão"
 msgstr "バージョンを表示"
 
-#: usr/local/bin/voidbr-suporte:525
+#: usr/local/bin/voidbr-suporte:526
 msgid "Exemplos:"
 msgstr "例:"
 
-#: usr/local/bin/voidbr-suporte:526
+#: usr/local/bin/voidbr-suporte:527
 msgid "usuário pede suporte"
 msgstr "ユーザーがサポートを求める"
 
-#: usr/local/bin/voidbr-suporte:527
+#: usr/local/bin/voidbr-suporte:528
 msgid "técnico vê quem está aguardando"
 msgstr "技術者が待っている人を見る"
 
-#: usr/local/bin/voidbr-suporte:528
+#: usr/local/bin/voidbr-suporte:529
 msgid "conecta (se houver só uma máquina)"
 msgstr "接続する（もしマシンが1台しかない場合）"
 
-#: usr/local/bin/voidbr-suporte:529
+#: usr/local/bin/voidbr-suporte:530
 msgid "conecta pelo IP"
-msgstr "IPで接続する"
+msgstr "IP経由で接続する"
 
-#: usr/local/bin/voidbr-suporte:531
+#: usr/local/bin/voidbr-suporte:532
 msgid "Configuração:"
-msgstr "設定:"
+msgstr "設定："
 
-#: usr/local/bin/voidbr-suporte:538
+#: usr/local/bin/voidbr-suporte:539
 msgid "modo inválido em %s: %s"
 msgstr "%sで無効なモード: %s"
 
-#: usr/local/bin/voidbr-suporte:555
+#: usr/local/bin/voidbr-suporte:556
 msgid "opção inválida: %s"
 msgstr "無効なオプション: %s"

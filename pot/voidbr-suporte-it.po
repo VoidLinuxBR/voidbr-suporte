@@ -1,18 +1,18 @@
-# Chili Tradutor Go - 2.1.27-20260928
+# Chili Tradutor Go - 2.1.30-20260928
 # Copyright (C) 2019-2026 Vilmar Catafesta <vcatafesta@gmail.com>
-# This file is distributed under the same license as the chili-tradutor-go package.
+# This file is distributed under the same license as the voidbr-suporte package.
 msgid ""
 msgstr ""
-"Project-Id-Version: chili-tradutor-go 2.1.27-20260928\n"
-"POT-Creation-Date: 2026-09-28 19:05-0400\n"
-"PO-Revision-Date: 2026-09-28 19:05-0400\n"
+"Project-Id-Version: voidbr-suporte\n"
+"POT-Creation-Date: 2026-10-04 20:56-0400\n"
+"PO-Revision-Date: 2026-10-04 20:56-0400\n"
 "Last-Translator: Vilmar Catafesta <vcatafesta@gmail.com>\n"
-"Language-Team: Portuguese <https://github.com/chililinux/chili-tradutor-go>\n"
+"Language-Team: it <https://github.com/chililinux/chili-tradutor-go>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: usr/local/bin/voidbr-suporte:105
 msgid "AVISO:"
@@ -54,263 +54,263 @@ msgstr "SUPPORTO"
 msgid "exit = encerrar"
 msgstr "exit = chiudere"
 
-#: usr/local/bin/voidbr-suporte:221
+#: usr/local/bin/voidbr-suporte:222
 msgid "Encerrando o suporte"
-msgstr "Chiudendo il supporto"
+msgstr "Fine del supporto"
 
-#: usr/local/bin/voidbr-suporte:226
+#: usr/local/bin/voidbr-suporte:227
 msgid "máquina removida da rede do técnico"
 msgstr "macchina rimossa dalla rete del tecnico"
 
-#: usr/local/bin/voidbr-suporte:248
+#: usr/local/bin/voidbr-suporte:249
 msgid "ts_authkey não definido em %s"
 msgstr "ts_authkey non definito in %s"
 
-#: usr/local/bin/voidbr-suporte:249
-msgid "para PEDIR suporte (usuário): configure o ts_authkey"
-msgstr "per RICHIEDERE supporto (utente): configura il ts_authkey"
-
 #: usr/local/bin/voidbr-suporte:250
-msgid "para DAR suporte (técnico):   %s --list | --connect"
-msgstr "per FORNIRE supporto (tecnico):   %s --list | --connect"
+msgid "para PEDIR suporte (usuário): configure o ts_authkey"
+msgstr "per CHIEDERE supporto (utente): configurare ts_authkey"
 
-#: usr/local/bin/voidbr-suporte:263
-msgid "Iniciando suporte remoto"
-msgstr "Avviando supporto remoto"
+#: usr/local/bin/voidbr-suporte:251
+msgid "para DAR suporte (técnico):   %s --list | --connect"
+msgstr "per DARE supporto (tecnico): %s --list | --collegare"
 
 #: usr/local/bin/voidbr-suporte:264
+msgid "Iniciando suporte remoto"
+msgstr "Avvio del supporto remoto"
+
+#: usr/local/bin/voidbr-suporte:265
 msgid "subindo conexão (modo userspace, estado só em memória)"
 msgstr "avviando connessione (modalità userspace, stato solo in memoria)"
 
-#: usr/local/bin/voidbr-suporte:278
+#: usr/local/bin/voidbr-suporte:279
 msgid "tailscaled não subiu; veja %s"
 msgstr "tailscaled non è partito; vedere %s"
 
-#: usr/local/bin/voidbr-suporte:281
+#: usr/local/bin/voidbr-suporte:282
 msgid "tailscaled não respondeu"
 msgstr "tailscaled non ha risposto"
 
-#: usr/local/bin/voidbr-suporte:283
+#: usr/local/bin/voidbr-suporte:284
 msgid "entrando na rede do técnico como %s"
 msgstr "entrando nella rete del tecnico come %s"
 
-#: usr/local/bin/voidbr-suporte:292
+#: usr/local/bin/voidbr-suporte:293
 msgid "não consegui conectar; confira a internet e a ts_authkey"
 msgstr "non sono riuscito a connettermi; controlla Internet e ts_authkey"
 
-#: usr/local/bin/voidbr-suporte:304
+#: usr/local/bin/voidbr-suporte:305
 msgid "Nome desta máquina para o técnico:"
 msgstr "Nome di questa macchina per il tecnico:"
 
-#: usr/local/bin/voidbr-suporte:305
+#: usr/local/bin/voidbr-suporte:306
 msgid "sem IP"
 msgstr "senza IP"
 
-#: usr/local/bin/voidbr-suporte:306
+#: usr/local/bin/voidbr-suporte:307
 msgid "O técnico acessa com:"
 msgstr "Il tecnico accede con:"
 
-#: usr/local/bin/voidbr-suporte:310 usr/local/bin/voidbr-suporte:373
-msgid "O técnico verá e digitará neste terminal junto com você."
-msgstr "Il tecnico vedrà e digiterà in questo terminale insieme a te."
-
 #: usr/local/bin/voidbr-suporte:311 usr/local/bin/voidbr-suporte:374
-msgid "Para %sENCERRAR o suporte%s, digite: %sexit%s"
-msgstr "Per %sENCERRAR il supporto %s, digita: %sexit %s"
+msgid "O técnico verá e digitará neste terminal junto com você."
+msgstr "Il tecnico vedrà e digiterà su questo terminale insieme a te."
 
-#: usr/local/bin/voidbr-suporte:315
+#: usr/local/bin/voidbr-suporte:312 usr/local/bin/voidbr-suporte:375
+msgid "Para %sENCERRAR o suporte%s, digite: %sexit%s"
+msgstr "Per %sENCERRAR o supporto%s, digitare: %sexit%s"
+
+#: usr/local/bin/voidbr-suporte:316
 msgid "Pressione Enter para abrir o terminal compartilhado..."
 msgstr "Premi Invio per aprire il terminale condiviso..."
 
-#: usr/local/bin/voidbr-suporte:319
+#: usr/local/bin/voidbr-suporte:320
 msgid "O técnico usará um terminal próprio nesta máquina."
-msgstr "Il tecnico userà un terminale proprio su questa macchina."
+msgstr "Il tecnico utilizzerà un terminale dedicato su questa macchina."
 
-#: usr/local/bin/voidbr-suporte:321
+#: usr/local/bin/voidbr-suporte:322
 msgid "Para %sENCERRAR o suporte%s, pressione %sCtrl+C%s"
-msgstr "Per %sENCERRAR il supporto %s, premere %sCtrl+C%s"
+msgstr "Per %sENCERRAR o supporto %s, premi %sCtrl+C%s"
 
-#: usr/local/bin/voidbr-suporte:324
+#: usr/local/bin/voidbr-suporte:325
 msgid "Pressione Enter para ENCERRAR o suporte..."
-msgstr "Premere Invio per TERMINARE il supporto..."
+msgstr "Premi Invio per terminare il supporto..."
 
-#: usr/local/bin/voidbr-suporte:366
+#: usr/local/bin/voidbr-suporte:367
 msgid "Passe para o técnico:"
-msgstr "Passa al tecnico:"
+msgstr "Passatelo al tecnico:"
 
-#: usr/local/bin/voidbr-suporte:370
+#: usr/local/bin/voidbr-suporte:371
 msgid "não consegui ler o comando de acesso; rode: %s"
 msgstr "non sono riuscito a leggere il comando di accesso; esegui: %s"
 
-#: usr/local/bin/voidbr-suporte:393
+#: usr/local/bin/voidbr-suporte:394
 msgid "nenhum técnico configurado em %s (tecnicos_github ou tecnicos_chaves)"
 msgstr "nessun tecnico configurato in %s (tecnicos_github o tecnicos_chaves)"
 
-#: usr/local/bin/voidbr-suporte:396
-msgid "Iniciando suporte remoto (upterm)"
-msgstr "Avviando supporto remoto (upterm)"
-
 #: usr/local/bin/voidbr-suporte:397
+msgid "Iniciando suporte remoto (upterm)"
+msgstr "Avvio del supporto remoto (upterm)"
+
+#: usr/local/bin/voidbr-suporte:398
 msgid "conectando em %s..."
 msgstr "collegandosi a %s..."
 
-#: usr/local/bin/voidbr-suporte:420 usr/local/bin/voidbr-suporte:437
+#: usr/local/bin/voidbr-suporte:421 usr/local/bin/voidbr-suporte:438
 msgid "nenhuma máquina de suporte online"
 msgstr "nessuna macchina di supporto online"
 
-#: usr/local/bin/voidbr-suporte:423
+#: usr/local/bin/voidbr-suporte:424
 msgid "IP"
 msgstr "IP"
 
-#: usr/local/bin/voidbr-suporte:423
+#: usr/local/bin/voidbr-suporte:424
 msgid "USUÁRIO"
 msgstr "UTENTE"
 
-#: usr/local/bin/voidbr-suporte:424
+#: usr/local/bin/voidbr-suporte:425
 msgid "NOME"
 msgstr "NOME"
 
-#: usr/local/bin/voidbr-suporte:424
+#: usr/local/bin/voidbr-suporte:425
 msgid "ESTADO"
 msgstr "STATO"
 
-#: usr/local/bin/voidbr-suporte:453
+#: usr/local/bin/voidbr-suporte:454
 msgid "nenhuma máquina de suporte corresponde a '%s'"
 msgstr "nessuna macchina di supporto corrisponde a '%s'"
 
-#: usr/local/bin/voidbr-suporte:455
+#: usr/local/bin/voidbr-suporte:456
 msgid "mais de uma máquina corresponde; informe o nome ou o IP"
-msgstr "più di una macchina corrisponde; inserisci il nome o l'IP"
+msgstr "più di una macchina corrisponde; Inserisci il tuo nome o IP"
 
-#: usr/local/bin/voidbr-suporte:461
+#: usr/local/bin/voidbr-suporte:462
 msgid "não sei o usuário de %s; use: %s --connect %s <usuario>"
 msgstr "non so l'utente di %s; usa: %s --connect %s <utente>"
 
-#: usr/local/bin/voidbr-suporte:464
+#: usr/local/bin/voidbr-suporte:465
 msgid "Entrando em %s (%s)"
 msgstr "Entrando in %s (%s)"
 
-#: usr/local/bin/voidbr-suporte:486
+#: usr/local/bin/voidbr-suporte:487
 msgid "não consegui entrar como '%s' em %s (código %s)"
 msgstr "non sono riuscito ad accedere come '%s' in %s (codice %s)"
 
-#: usr/local/bin/voidbr-suporte:488
+#: usr/local/bin/voidbr-suporte:489
 msgid "a conexão ou o login foi recusado"
 msgstr "la connessione o il login è stato rifiutato"
 
-#: usr/local/bin/voidbr-suporte:490
+#: usr/local/bin/voidbr-suporte:491
 msgid "entrou, mas a sessão '%s' do tmux não abriu (no sessions?)"
 msgstr "è entrato, ma la sessione '%s' di tmux non si è aperta (nessuna sessione?)"
 
-#: usr/local/bin/voidbr-suporte:492
+#: usr/local/bin/voidbr-suporte:493
 msgid ""
 "o remoto pode estar com versão antiga do voidbr-suporte, ou o usuário é outro"
 msgstr "il remoto potrebbe avere una versione vecchia del voidbr-suporte, oppure l'utente è un altro"
 
-#: usr/local/bin/voidbr-suporte:493
+#: usr/local/bin/voidbr-suporte:494
 msgid "tente: %s --connect %s <usuario>"
 msgstr "tente: %s --connect %s <usuario>"
 
-#: usr/local/bin/voidbr-suporte:498
+#: usr/local/bin/voidbr-suporte:499
 msgid "defina ntfy_topico em %s"
 msgstr "definisci ntfy_topico in %s"
 
-#: usr/local/bin/voidbr-suporte:500
+#: usr/local/bin/voidbr-suporte:501
 msgid "Aguardando chamados em %s (Ctrl+C para sair)"
 msgstr "In attesa di chiamate in %s (Ctrl+C per uscire)"
 
-#: usr/local/bin/voidbr-suporte:503
+#: usr/local/bin/voidbr-suporte:504
 msgid "novo chamado:"
 msgstr "nuova chiamata:"
 
-#: usr/local/bin/voidbr-suporte:509
+#: usr/local/bin/voidbr-suporte:510
 msgid "uso:"
 msgstr "uso:"
 
-#: usr/local/bin/voidbr-suporte:509
+#: usr/local/bin/voidbr-suporte:510
 msgid "[opções]"
 msgstr "[opzioni]"
 
-#: usr/local/bin/voidbr-suporte:511
-msgid "Usuário (pedir suporte):"
-msgstr "Utente (richiedere supporto):"
-
 #: usr/local/bin/voidbr-suporte:512
+msgid "Usuário (pedir suporte):"
+msgstr "Utente (chiedi supporto):"
+
+#: usr/local/bin/voidbr-suporte:513
 msgid "(sem opções)"
 msgstr "(senza opzioni)"
 
-#: usr/local/bin/voidbr-suporte:512
+#: usr/local/bin/voidbr-suporte:513
 msgid "inicia o suporte (modo do .conf: %s)"
 msgstr "avvia il supporto (modalità del .conf: %s)"
 
-#: usr/local/bin/voidbr-suporte:513
+#: usr/local/bin/voidbr-suporte:514
 msgid "força o modo Tailscale"
 msgstr "forza la modalità Tailscale"
 
-#: usr/local/bin/voidbr-suporte:514
+#: usr/local/bin/voidbr-suporte:515
 msgid "força o modo upterm"
 msgstr "forza la modalità upterm"
 
-#: usr/local/bin/voidbr-suporte:516
-msgid "Técnico (dar suporte):"
-msgstr "Tecnico (fornire supporto):"
-
 #: usr/local/bin/voidbr-suporte:517
+msgid "Técnico (dar suporte):"
+msgstr "Tecnico (supporto):"
+
+#: usr/local/bin/voidbr-suporte:518
 msgid "máquinas aguardando suporte"
 msgstr "macchine in attesa di supporto"
 
-#: usr/local/bin/voidbr-suporte:518
+#: usr/local/bin/voidbr-suporte:519
 msgid "[alvo] [usuario]"
 msgstr "[bersaglio] [utente]"
 
-#: usr/local/bin/voidbr-suporte:518
-msgid "conecta na máquina (nome, parte do nome ou IP)"
-msgstr "collegati alla macchina (nome, parte del nome o IP)"
-
 #: usr/local/bin/voidbr-suporte:519
+msgid "conecta na máquina (nome, parte do nome ou IP)"
+msgstr "si collega alla macchina (nome, parte del nome o IP)"
+
+#: usr/local/bin/voidbr-suporte:520
 msgid "aguarda chamados via ntfy"
 msgstr "attende chiamate tramite ntfy"
 
-#: usr/local/bin/voidbr-suporte:521
-msgid "Gerais:"
-msgstr "Generali:"
-
 #: usr/local/bin/voidbr-suporte:522
+msgid "Gerais:"
+msgstr "Generale:"
+
+#: usr/local/bin/voidbr-suporte:523
 msgid "mostra esta ajuda"
 msgstr "mostra questo aiuto"
 
-#: usr/local/bin/voidbr-suporte:523
+#: usr/local/bin/voidbr-suporte:524
 msgid "mostra a versão"
 msgstr "mostra la versione"
 
-#: usr/local/bin/voidbr-suporte:525
+#: usr/local/bin/voidbr-suporte:526
 msgid "Exemplos:"
 msgstr "Esempi:"
 
-#: usr/local/bin/voidbr-suporte:526
+#: usr/local/bin/voidbr-suporte:527
 msgid "usuário pede suporte"
 msgstr "l'utente chiede supporto"
 
-#: usr/local/bin/voidbr-suporte:527
+#: usr/local/bin/voidbr-suporte:528
 msgid "técnico vê quem está aguardando"
 msgstr "il tecnico vede chi sta aspettando"
 
-#: usr/local/bin/voidbr-suporte:528
+#: usr/local/bin/voidbr-suporte:529
 msgid "conecta (se houver só uma máquina)"
 msgstr "connetti (se c'è solo una macchina)"
 
-#: usr/local/bin/voidbr-suporte:529
+#: usr/local/bin/voidbr-suporte:530
 msgid "conecta pelo IP"
-msgstr "connetti tramite IP"
+msgstr "connettersi tramite IP"
 
-#: usr/local/bin/voidbr-suporte:531
+#: usr/local/bin/voidbr-suporte:532
 msgid "Configuração:"
-msgstr "Configurazione:"
+msgstr "Impostazioni:"
 
-#: usr/local/bin/voidbr-suporte:538
+#: usr/local/bin/voidbr-suporte:539
 msgid "modo inválido em %s: %s"
 msgstr "modo non valido in %s: %s"
 
-#: usr/local/bin/voidbr-suporte:555
+#: usr/local/bin/voidbr-suporte:556
 msgid "opção inválida: %s"
 msgstr "opzione non valida: %s"
