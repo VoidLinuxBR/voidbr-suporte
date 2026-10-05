@@ -4,7 +4,7 @@
 #
 #  voidbr-suporte - Wrapper for
 #  Created: seg 28 set 2026 17:42:20 -04
-#  Updated: seg 28 set 2026 17:42:20 -04
+#  Updated: dom 04 out 2026 20:47:00 -04
 #
 #  Copyright (c) 2019-2026, Vilmar Catafesta <vcatafesta@gmail.com>
 #  Copyright (c) 2019-2026, ChiliLinux Development Team <https://chililinux.com> <https://github.com/chililinux>
@@ -55,7 +55,7 @@ shopt -s extglob
 
 #system
 declare APP="${0##*/}"
-declare _VERSION_="0.09.28-20260928"
+declare _VERSION_="0.10.04-20261004"
 
 set -uo pipefail
 
@@ -195,6 +195,7 @@ sh_abrir_shell() {
 
 	tmux kill-session -t "$tmux_sessao" 2>/dev/null
 	tmux new-session -s "$tmux_sessao" \; \
+		set-option mouse off \; \
 		set-option status-style "bg=$c_bg,fg=$c_fg" \; \
 		set-option status-justify left \; \
 		set-option status-left "$left" \; \
